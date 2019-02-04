@@ -129,7 +129,7 @@ namespace RPG.Characters
         void SpecialAttack(int abilityIndex, Enemy enemy)
         {
             energy.ConsumeEnergy(abilities[abilityIndex].GetEnergyCost());
-            AbilityUseParams abilityParams = new AbilityUseParams(gameObject, enemy, baseDamage);
+            AbilityUseParams abilityParams = new AbilityUseParams(enemy, baseDamage);
 
             abilities[abilityIndex].Use(abilityParams);
             lastHitTime = Time.time;

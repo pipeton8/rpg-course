@@ -18,17 +18,28 @@ namespace RPG.Characters
 
         public void Use(AbilityUseParams useParams)
         {
+            DealRadialDamage(useParams);
+            PlayParticleEffect();
+        }
+
+        void DealRadialDamage(AbilityUseParams useParams)
+        {
             float totalDamage = useParams.baseDamage + config.GetDamage(); // TODO is this reasonable?
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, config.GetEffectRadius());
 
             foreach (Collider hitCollider in hitColliders)
             {
                 GameObject target = hitCollider.gameObject;
-                if (target != useParams.user)
-                {
-                    AttemptToDealDamage(target, totalDamage);
-                }
+                if (target != gameObject) { AttemptToDealDamage(target, totalDamage); }
             }
+        }
+
+        void PlayParticleEffect()
+        {
+            GameObject particlePrefab = Instantiate(config.GetParticlePrefab(), transform);
+            ParticleSystem particles = particlePrefab.GetComponent<ParticleSystem>();
+            particles.Play();
+            Destroy(particlePrefab, particles.main.duration);
         }
 
         void AttemptToDealDamage(GameObject target, float damage)

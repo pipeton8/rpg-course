@@ -6,13 +6,11 @@ namespace RPG.Characters
 {
     public struct AbilityUseParams
     {
-        public GameObject user;
         public IDamageable target;
         public float baseDamage;
 
-        public AbilityUseParams(GameObject newUser, IDamageable newTarget, float damage)
+        public AbilityUseParams(IDamageable newTarget, float damage)
         {
-            user = newUser;
             target = newTarget;
             baseDamage = damage;
         }
@@ -22,12 +20,15 @@ namespace RPG.Characters
     {
         [Header("Special Ability General")]
         [SerializeField] float energyCost = 10f;
+        [SerializeField] GameObject particlePrefab = null;
 
         protected ISpecialAbility behaviour;
 
         public abstract void AttachComponentTo(GameObject gameObjectToAttachTo);
 
         public float GetEnergyCost() { return energyCost; }
+
+        public GameObject GetParticlePrefab() { return particlePrefab; }
 
         public void Use(AbilityUseParams useParams) { behaviour.Use(useParams); }
     }

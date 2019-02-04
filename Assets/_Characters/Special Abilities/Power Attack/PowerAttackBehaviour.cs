@@ -15,8 +15,25 @@ namespace RPG.Characters
 
         public void Use(AbilityUseParams useParams)
         {
+            DealDamage(useParams);
+            PlayParticleEffect();
+
+        }
+
+        void DealDamage(AbilityUseParams useParams)
+        {
             float totalDamage = useParams.baseDamage + config.GetExtraDamage();
             useParams.target.TakeDamage(totalDamage);
         }
+
+        void PlayParticleEffect()
+        {
+            GameObject particlePrefab = Instantiate(config.GetParticlePrefab(), transform);
+            ParticleSystem particles = particlePrefab.GetComponent<ParticleSystem>();
+            particles.Play();
+            Destroy(particlePrefab, particles.main.duration);
+        }
+
+
     }
 }
