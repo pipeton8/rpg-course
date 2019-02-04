@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06f06ea3e58e42aba1658602c5edbd3, type: 3}
+  m_Name: Hoe
+  m_EditorClassIdentifier: 
+  gripTransform: {fileID: 2060907935317786729, guid: fb1c80b358e7847b79e8ad3e26406f8f,
+    type: 3}
+  weaponPrefab: {fileID: 1274797246840802, guid: cc0dbe33ee8adbe4eb124e2d95d37fe4,
+    type: 3}
+  attackAnimation: {fileID: 7400000, guid: 45c47c9522f5e5842a788cef42fb5dbc, type: 3}
+  minTimeBetweenHits: 2
+  maxAttackRange: 3
