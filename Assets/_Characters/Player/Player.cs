@@ -20,6 +20,9 @@ namespace RPG.Characters
         [SerializeField] AudioClip[] damageSounds = null;
         [SerializeField] AudioClip[] deathSounds = null;
         [SerializeField] AnimationClip[] deathAnimations = null;
+        [Range(.1f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
+        [SerializeField] float criticalHitMultiplier = 1.25f;
+        [SerializeField] GameObject criticalHitParticlePrefab = null;
 
         // Temporarily serialized for dubbing
         [SerializeField] SpecialAbility[] abilities = null;
@@ -27,6 +30,7 @@ namespace RPG.Characters
         const string ATTACK_TRIGGER = "Attack";
         const string DEATH_TRIGGER = "Death";
 
+        GameObject dominantHand;
         Enemy currentEnemy = null;
         AudioSource audioSource;
         CameraRaycaster cameraRaycaster;
@@ -91,7 +95,7 @@ namespace RPG.Characters
 
         void PutWeaponInHand()
         {
-            GameObject dominantHand = RequestDominantHand();
+            dominantHand = RequestDominantHand();
             GameObject weaponInHand = Instantiate(weaponInUse.GetWeapon(), dominantHand.transform);
             weaponInHand.transform.localPosition = weaponInUse.gripTransform.localPosition;
             weaponInHand.transform.localRotation = weaponInUse.gripTransform.localRotation;
@@ -174,8 +178,29 @@ namespace RPG.Characters
         void Attack()
         {
             TriggerAttackAnimation();
-            DealDamage(baseDamage);
+            float totalDamage = CalculateDamage();
+            DealDamage(totalDamage);
             lastHitTime = Time.time;
+        }
+
+        float CalculateDamage()
+        {
+            float damageBeforeCritical = baseDamage + weaponInUse.GetAdditionalDamage();
+            bool isCriticalHit = UnityEngine.Random.Range(0f, 1f) <= criticalHitChance;
+            if (isCriticalHit) 
+            {
+                PlayParticleEffect(); 
+                return damageBeforeCritical * criticalHitMultiplier; 
+            }
+            return damageBeforeCritical;
+        }
+
+        private void PlayParticleEffect()
+        {
+            GameObject newParticleObject = Instantiate(criticalHitParticlePrefab, dominantHand.transform);
+            ParticleSystem criticalHitParticles = newParticleObject.GetComponent<ParticleSystem>();
+            criticalHitParticles.Play();
+            Destroy(newParticleObject, criticalHitParticles.main.duration);
         }
 
         void TriggerAttackAnimation()

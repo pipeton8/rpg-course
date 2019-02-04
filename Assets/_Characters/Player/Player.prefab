@@ -176,6 +176,10 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 589a11892e95f834dbf23f9e1cc1f090, type: 3}
   - {fileID: 7400000, guid: 5e2c83d7c29bbd64cb4e8431239e7313, type: 3}
   - {fileID: 7400000, guid: 85f9e92f60334cd41bd11907b3963d28, type: 3}
+  criticalHitChance: 0.1
+  criticalHitMultiplier: 1.25
+  criticalHitParticlePrefab: {fileID: 6065228353062360269, guid: 4bdda92720cbe4c62a0812c776ae4470,
+    type: 3}
   abilities:
   - {fileID: 11400000, guid: 62015fa424deb4d52aec1b5fd7dcf96c, type: 2}
   - {fileID: 11400000, guid: 2dfb372876852441783189acabe1f4c5, type: 2}

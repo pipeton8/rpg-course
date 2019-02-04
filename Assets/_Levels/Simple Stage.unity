@@ -418,23 +418,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
-      propertyPath: abilities.Array.data[0]
+      propertyPath: criticalHitParticlePrefab
       value: 
-      objectReference: {fileID: 11400000, guid: 62015fa424deb4d52aec1b5fd7dcf96c,
-        type: 2}
-    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
-      propertyPath: abilities.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 2dfb372876852441783189acabe1f4c5,
-        type: 2}
-    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
-      propertyPath: abilities.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: c276dda78be1b42d7ab11eff3d62b9d6,
-        type: 2}
+      objectReference: {fileID: 6065228353062360269, guid: 4bdda92720cbe4c62a0812c776ae4470,
+        type: 3}
     - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
       propertyPath: maxHealthPoints
-      value: 1000
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 2112122996724321227, guid: 178edfe1c65414b72bcec4d75f09036e,
         type: 3}
