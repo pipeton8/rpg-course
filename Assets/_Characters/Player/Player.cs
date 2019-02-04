@@ -38,12 +38,12 @@ namespace RPG.Characters
 
         public bool IsDead() { return currentHealthPoints <= 0; }
 
-        public void TakeDamage(float damage)
+        public void AdjustHealth(float healthChange)
         {
             if (IsDead()) { return; }
-            bool playerDies = currentHealthPoints <= damage;
-            ReduceHealth(damage);
-            PlayDamageSound();
+            bool playerDies = currentHealthPoints + healthChange <= 0;
+            if (healthChange < 0) { PlayDamageSound(); }
+            ChangeHealthPoints(healthChange);
             if (playerDies) { StartCoroutine(KillPlayer()); }
         }
 
@@ -112,27 +112,17 @@ namespace RPG.Characters
         {
             if (enemy.IsDead()) { return; }
 
-            if (IsTargetInRange(enemy) && CanAttack())
+            if (CanAttack())
             {
-                if (Input.GetMouseButton(0)) 
+                if (Input.GetMouseButton(0) && IsTargetInRange(enemy)) 
                 {
                     Attack(enemy);
                 }
                 else if (Input.GetMouseButtonDown(1) && energy.IsEnergyAvailable(abilities[0].GetEnergyCost()))
                 {
-                    print("Special attacking " + enemy.gameObject.name);
                     SpecialAttack(0, enemy);
                 }
             }
-        }
-
-        void SpecialAttack(int abilityIndex, Enemy enemy)
-        {
-            energy.ConsumeEnergy(abilities[abilityIndex].GetEnergyCost());
-            AbilityUseParams abilityParams = new AbilityUseParams(enemy, baseDamage);
-
-            abilities[abilityIndex].Use(abilityParams);
-            lastHitTime = Time.time;
         }
 
         bool IsTargetInRange(Enemy enemy)
@@ -143,6 +133,7 @@ namespace RPG.Characters
 
         bool CanAttack()
         {
+            if (IsDead()) { return false; }
             float timeSinceLastAttack = Time.time - lastHitTime;
             return timeSinceLastAttack > weaponInUse.GetMinTimeBetweenHits();
         }
@@ -160,11 +151,19 @@ namespace RPG.Characters
             animator.SetTrigger(ATTACK_TRIGGER);
         }
 
-        void DealDamage(float damage, Enemy enemy) { enemy.TakeDamage(damage); }
+        void DealDamage(float damage, Enemy enemy) { enemy.AdjustHealth(-damage); }
 
-        void ReduceHealth(float damage)
+        void SpecialAttack(int abilityIndex, Enemy enemy)
         {
-            float newHealthPoints = currentHealthPoints - damage;
+            energy.ConsumeEnergy(abilities[abilityIndex].GetEnergyCost());
+            AbilityUseParams abilityParams = new AbilityUseParams(enemy, baseDamage);
+            abilities[abilityIndex].Use(abilityParams);
+            lastHitTime = Time.time;
+        }
+
+        void ChangeHealthPoints(float healthChange)
+        {
+            float newHealthPoints = currentHealthPoints + healthChange;
             currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
         }
 

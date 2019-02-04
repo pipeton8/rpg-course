@@ -75,6 +75,8 @@
     <Compile Include="Assets\_Characters\Special Abilities\Area Effect\AreaEffectBehaviour.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\Power Attack\PowerAttack.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\Power Attack\PowerAttackBehaviour.cs" />
+    <Compile Include="Assets\_Characters\Special Abilities\Self Heal\SelfHeal.cs" />
+    <Compile Include="Assets\_Characters\Special Abilities\Self Heal\SelfHealBehaviour.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\SpecialAbility.cs" />
     <Compile Include="Assets\_Characters\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\_Core\AudioTrigger.cs" />

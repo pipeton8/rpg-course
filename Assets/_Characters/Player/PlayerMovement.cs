@@ -36,6 +36,8 @@ namespace RPG.Characters
 
         void OnMouseOverEnemy(Enemy enemy)
         {
+            if (CanMove()) { return; }
+
             if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
             {
                 aiCharacterControl.SetTarget(enemy.transform);
@@ -44,11 +46,15 @@ namespace RPG.Characters
 
         void OnWalkableLayer(Vector3 destination)
         {
+            if (CanMove()) { return; }
+
             if (Input.GetMouseButton(0))
             {
                 walkTarget.transform.position = destination;
                 aiCharacterControl.SetTarget(walkTarget.transform);
             }
-        }    
+        }
+
+        bool CanMove() { return GetComponent<Player>().IsDead(); }
     }
 }

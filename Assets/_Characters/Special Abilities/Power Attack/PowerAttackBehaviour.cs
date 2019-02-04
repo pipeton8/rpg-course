@@ -17,13 +17,12 @@ namespace RPG.Characters
         {
             DealDamage(useParams);
             PlayParticleEffect();
-
         }
 
         void DealDamage(AbilityUseParams useParams)
         {
             float totalDamage = useParams.baseDamage + config.GetExtraDamage();
-            useParams.target.TakeDamage(totalDamage);
+            useParams.target.AdjustHealth(totalDamage);
         }
 
         void PlayParticleEffect()
@@ -33,7 +32,5 @@ namespace RPG.Characters
             particles.Play();
             Destroy(particlePrefab, particles.main.duration);
         }
-
-
     }
 }

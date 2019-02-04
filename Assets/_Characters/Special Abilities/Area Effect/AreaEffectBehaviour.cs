@@ -45,7 +45,7 @@ namespace RPG.Characters
         void AttemptToDealDamage(GameObject target, float damage)
         {
             var possibleTarget = target.GetComponent<IDamageable>();
-            if (possibleTarget != null) { possibleTarget.TakeDamage(damage); }
+            if (possibleTarget != null) { possibleTarget.AdjustHealth(damage); }
         }
 
         void OnDrawGizmos()

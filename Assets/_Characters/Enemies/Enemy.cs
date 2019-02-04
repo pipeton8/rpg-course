@@ -29,10 +29,10 @@ namespace RPG.Characters
 
         public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
 
-        public void TakeDamage(float damage)
+        public void AdjustHealth(float healthChange)
         {
             if (IsDead()) { return; }
-            ReduceHealth(damage);
+            ChangeHealthPoints(healthChange);
             if (IsDead()) { Destroy(gameObject); }
         }
 
@@ -74,9 +74,10 @@ namespace RPG.Characters
 
         bool PlayerIsDead() { return player.GetComponent<IDamageable>().IsDead(); }
 
-        void ReduceHealth(float damage)
+        void ChangeHealthPoints(float healthChange)
         {
-            currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0f, maxHealthPoints);
+            float newHealthPoints = currentHealthPoints + healthChange;
+            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
         }
 
         // TODO separate our character firing logic (in different class)
