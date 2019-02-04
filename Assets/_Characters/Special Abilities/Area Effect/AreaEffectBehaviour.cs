@@ -11,10 +11,7 @@ namespace RPG.Characters
     {
         AreaEffect config;
 
-        public void SetConfig(AreaEffect configToSet)
-        {
-            config = configToSet;
-        }
+        public void SetConfig(AreaEffect configToSet) { config = configToSet; }
 
         public void Use(AbilityUseParams useParams)
         {
@@ -45,7 +42,7 @@ namespace RPG.Characters
         void AttemptToDealDamage(GameObject target, float damage)
         {
             var possibleTarget = target.GetComponent<IDamageable>();
-            if (possibleTarget != null) { possibleTarget.AdjustHealth(damage); }
+            if (possibleTarget != null) { possibleTarget.TakeDamage(damage); }
         }
 
         void OnDrawGizmos()

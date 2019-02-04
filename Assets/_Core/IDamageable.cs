@@ -2,7 +2,9 @@
 {
     public interface IDamageable
     {
-        void AdjustHealth(float damage);
+        void TakeDamage(float damage);
+
+        void Heal(float amount);
 
         bool IsDead();
     }

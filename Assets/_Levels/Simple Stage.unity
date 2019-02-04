@@ -152,7 +152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -228.5, y: -476.29996}
+  m_AnchoredPosition: {x: -228.5, y: -476.5}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &326350974
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.092620224, b: 0, a: 1}
+  m_Color: {r: 0.99765027, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.092620224, b: 0, a: 1}
+  m_Color: {r: 0.98823535, g: 0.9921569, b: 0.011764707, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -416,6 +416,25 @@ PrefabInstance:
     - target: {fileID: 408730, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
+      propertyPath: abilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 62015fa424deb4d52aec1b5fd7dcf96c,
+        type: 2}
+    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
+      propertyPath: abilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dfb372876852441783189acabe1f4c5,
+        type: 2}
+    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
+      propertyPath: abilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c276dda78be1b42d7ab11eff3d62b9d6,
+        type: 2}
+    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
+      propertyPath: maxHealthPoints
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2112122996724321227, guid: 178edfe1c65414b72bcec4d75f09036e,
         type: 3}

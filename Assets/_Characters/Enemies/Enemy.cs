@@ -25,15 +25,23 @@ namespace RPG.Characters
         AICharacterControl aiCharacterControl = null;
         GameObject player = null;
 
+        // IDamageable methods
         public bool IsDead() { return currentHealthPoints <= 0; }
 
         public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
 
-        public void AdjustHealth(float healthChange)
+        public void TakeDamage(float damage)
         {
             if (IsDead()) { return; }
-            ChangeHealthPoints(healthChange);
+            float newHealthPoints = currentHealthPoints + damage;
+            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
             if (IsDead()) { Destroy(gameObject); }
+        }
+
+        public void Heal(float amount)
+        {
+            float newHealthPoints = currentHealthPoints + amount;
+            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
         }
 
         void Start()
@@ -73,12 +81,6 @@ namespace RPG.Characters
         void StopAttacking() { isAttacking = false; StopAllCoroutines(); }
 
         bool PlayerIsDead() { return player.GetComponent<IDamageable>().IsDead(); }
-
-        void ChangeHealthPoints(float healthChange)
-        {
-            float newHealthPoints = currentHealthPoints + healthChange;
-            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
-        }
 
         // TODO separate our character firing logic (in different class)
         IEnumerator SpawnProjectile()

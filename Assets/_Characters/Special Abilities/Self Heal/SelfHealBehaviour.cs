@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using RPG.Core;
+using System;
 
 namespace RPG.Characters
 {
@@ -19,12 +20,19 @@ namespace RPG.Characters
         {
             CureUser();
             PlayParticleEffect();
+            PlaySoundEffect();
+        }
+
+        private void PlaySoundEffect()
+        {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.PlayOneShot(config.GetSoundEffect());
         }
 
         private void CureUser()
         {
             IDamageable user = GetComponent<IDamageable>();
-            user.AdjustHealth(config.GetCureAmount());
+            user.Heal(config.GetCureAmount());
         }
 
         void PlayParticleEffect()

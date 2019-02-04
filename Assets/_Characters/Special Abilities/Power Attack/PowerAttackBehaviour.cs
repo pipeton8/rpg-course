@@ -22,7 +22,7 @@ namespace RPG.Characters
         void DealDamage(AbilityUseParams useParams)
         {
             float totalDamage = useParams.baseDamage + config.GetExtraDamage();
-            useParams.target.AdjustHealth(totalDamage);
+            useParams.target.TakeDamage(totalDamage);
         }
 
         void PlayParticleEffect()

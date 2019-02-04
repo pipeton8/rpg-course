@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using RPG.CameraUI;
 using RPG.Core;
 using RPG.Weapons;
+using System;
 
 namespace RPG.Characters
 {
@@ -26,38 +27,58 @@ namespace RPG.Characters
         const string ATTACK_TRIGGER = "Attack";
         const string DEATH_TRIGGER = "Death";
 
+        Enemy currentEnemy = null;
         AudioSource audioSource;
         CameraRaycaster cameraRaycaster;
         Animator animator;
         Energy energy;
         float currentHealthPoints;
         float lastHitTime;
-        bool dead;
         AudioClip deathSound;
         AnimationClip deathAnimation;
-
+        
         public bool IsDead() { return currentHealthPoints <= 0; }
 
-        public void AdjustHealth(float healthChange)
+        public void TakeDamage(float damage)
         {
             if (IsDead()) { return; }
-            bool playerDies = currentHealthPoints + healthChange <= 0;
-            if (healthChange < 0) { PlayDamageSound(); }
-            ChangeHealthPoints(healthChange);
-            if (playerDies) { StartCoroutine(KillPlayer()); }
+            PlayDamageSound();
+            float newHealthPoints = currentHealthPoints - damage;
+            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
+            if (IsDead()) { StartCoroutine(KillPlayer()); }
+        }
+
+        public void Heal(float amount)
+        {
+            float newHealthPoints = currentHealthPoints + amount;
+            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
         }
 
         public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
 
         void Start()
         {
+            energy = GetComponent<Energy>();
+
             RegisterForEnemyCursor();
             SetCurrentMaxHealth();
             PutWeaponInHand();
             SetupRuntimeAnimator();
+            AttachInitialAbilities();
             SetAudioSource();
-            abilities[0].AttachComponentTo(gameObject);
-            energy = GetComponent<Energy>();
+        }
+
+        private void AttachInitialAbilities()
+        {
+            for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++)
+            {
+                abilities[abilityIndex].AttachComponentTo(gameObject);
+            }
+        }
+
+        void Update()
+        {
+            if (!IsDead()) { ScanForAbilityKeyDown(); }
         }
 
         void RegisterForEnemyCursor()
@@ -97,7 +118,7 @@ namespace RPG.Characters
 
         void GetDeathAnimation() 
         {
-            deathAnimation = deathAnimations[Random.Range(0, deathAnimations.Length)];
+            deathAnimation = deathAnimations[UnityEngine.Random.Range(0, deathAnimations.Length)];
         }
 
         void SetAudioSource()
@@ -106,28 +127,35 @@ namespace RPG.Characters
             audioSource.loop = false;
         }
 
-        void GetDeathSound() { deathSound = deathSounds[Random.Range(0, deathSounds.Length)]; }
+        void ScanForAbilityKeyDown()
+        {
+            for(int abilityIndex = 1; abilityIndex < abilities.Length; abilityIndex++)
+            {
+                if (Input.GetKeyDown(abilityIndex.ToString()) && CanCast(abilityIndex)) 
+                {
+                    SpecialAttack(abilityIndex);
+                }
+            }
+
+        }
+
+        void GetDeathSound() { deathSound = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)]; }
 
         void OnMouseOverEnemy(Enemy enemy)
         {
             if (enemy.IsDead()) { return; }
 
-            if (CanAttack())
+            currentEnemy = enemy;
+            if (CanAttack() && IsTargetInRange())
             {
-                if (Input.GetMouseButton(0) && IsTargetInRange(enemy)) 
-                {
-                    Attack(enemy);
-                }
-                else if (Input.GetMouseButtonDown(1) && energy.IsEnergyAvailable(abilities[0].GetEnergyCost()))
-                {
-                    SpecialAttack(0, enemy);
-                }
+                if (Input.GetMouseButton(0)) { Attack(); }
+                else if (Input.GetMouseButtonDown(1) && CanCast(0)) { SpecialAttack(0); }
             }
         }
 
-        bool IsTargetInRange(Enemy enemy)
+        bool IsTargetInRange()
         {
-            float distanceToTarget = Vector3.Distance(enemy.transform.position, transform.position);
+            float distanceToTarget = Vector3.Distance(currentEnemy.transform.position, transform.position);
             return distanceToTarget <= weaponInUse.GetMaxAttackRange();
         }
 
@@ -138,10 +166,15 @@ namespace RPG.Characters
             return timeSinceLastAttack > weaponInUse.GetMinTimeBetweenHits();
         }
 
-        void Attack(Enemy enemy)
+        bool CanCast(int abilityIndex)
+        {
+            return energy.IsEnergyAvailable(abilities[abilityIndex].GetEnergyCost());
+        }
+
+        void Attack()
         {
             TriggerAttackAnimation();
-            DealDamage(baseDamage, enemy);
+            DealDamage(baseDamage);
             lastHitTime = Time.time;
         }
 
@@ -151,26 +184,20 @@ namespace RPG.Characters
             animator.SetTrigger(ATTACK_TRIGGER);
         }
 
-        void DealDamage(float damage, Enemy enemy) { enemy.AdjustHealth(-damage); }
+        void DealDamage(float damage) { currentEnemy.TakeDamage(damage); }
 
-        void SpecialAttack(int abilityIndex, Enemy enemy)
+        void SpecialAttack(int abilityIndex)
         {
             energy.ConsumeEnergy(abilities[abilityIndex].GetEnergyCost());
-            AbilityUseParams abilityParams = new AbilityUseParams(enemy, baseDamage);
+            AbilityUseParams abilityParams = new AbilityUseParams(currentEnemy, baseDamage);
             abilities[abilityIndex].Use(abilityParams);
             lastHitTime = Time.time;
-        }
-
-        void ChangeHealthPoints(float healthChange)
-        {
-            float newHealthPoints = currentHealthPoints + healthChange;
-            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
         }
 
         void PlayDamageSound()
         {
             if (audioSource.isPlaying) { return; }
-            int index = Random.Range(0, damageSounds.Length);
+            int index = UnityEngine.Random.Range(0, damageSounds.Length);
             audioSource.PlayOneShot(damageSounds[index]);
         }
 
