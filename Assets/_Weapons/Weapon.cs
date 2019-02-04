@@ -12,24 +12,17 @@ namespace RPG.Weapons
         [SerializeField] GameObject weaponPrefab = null;
         [SerializeField] AnimationClip attackAnimation = null;
 
-        [SerializeField] float minTimeBetweenHits = .5f;
+        [SerializeField] float minTimeBetweenHits = .5f; // TODO consider wheter we take anumation time into account
         [SerializeField] float maxAttackRange = 2f;
+        [SerializeField] float additionalDamage = 10f;
 
-        public float GetMinTimeBetweenHits()
-        {
-            // TODO consider wheter we take anumation time into account
-            return minTimeBetweenHits;
-        }
+        public float GetMinTimeBetweenHits() { return minTimeBetweenHits; }
 
-        public float GetMaxAttackRange()
-        {
-            return maxAttackRange;
-        }
+        public float GetMaxAttackRange() { return maxAttackRange; }
 
-        public GameObject GetWeapon()
-        {
-            return weaponPrefab;
-        }
+        public float GetAdditionalDamage() { return additionalDamage; }
+
+        public GameObject GetWeapon() { return weaponPrefab; }
 
         public AnimationClip GetAnimClip()
         {
@@ -38,8 +31,7 @@ namespace RPG.Weapons
         }
 
         // So that asset packs don't cause crashes
-        private void RemoveAnimationEvents()
-        {
+        private void RemoveAnimationEvents()  {
             attackAnimation.events = new AnimationEvent[0];
         }
     }

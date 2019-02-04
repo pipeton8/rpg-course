@@ -33,7 +33,7 @@ namespace RPG.Characters
         public void TakeDamage(float damage)
         {
             if (IsDead()) { return; }
-            float newHealthPoints = currentHealthPoints + damage;
+            float newHealthPoints = currentHealthPoints - damage;
             currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
             if (IsDead()) { Destroy(gameObject); }
         }
