@@ -124,7 +124,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingTurnSpeed: 720
   stationaryTurnSpeed: 360
-  animSpeedMultiplier: 1.25
 --- !u!114 &293319975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoppingDistance: 1
+  moveSpeedMultiplier: 1.25
 --- !u!114 &2112122996724321227
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,11 @@ namespace RPG.Characters
     public class CharacterMovement : MonoBehaviour
     {
         [SerializeField] float stoppingDistance = 1f;
+        [SerializeField] float moveSpeedMultiplier = 1f;
+        // TODO consider animationSpeedMultiplier
 
+        Animator animator;
+        Rigidbody characterRigidbody;
         ThirdPersonCharacter character = null;   // A reference to the ThirdPersonCharacter on the object
         Vector3 clickPoint;
         GameObject walkTarget;
@@ -20,10 +24,12 @@ namespace RPG.Characters
         void Start()
         {
             character = GetComponent<ThirdPersonCharacter>();
+            characterRigidbody = GetComponent<Rigidbody>();
             walkTarget = new GameObject("walkTarget");
 
-            RegisterToCursor();
+            SetupAnimator();
             SetNavMeshAgent();
+            RegisterToCursor();
         }
 
         void Update()
@@ -37,6 +43,13 @@ namespace RPG.Characters
                 character.Move(Vector3.zero);
             }
         }
+
+        void SetupAnimator()
+        {
+            animator = GetComponent<Animator>();
+            //animator.speed = moveSpeedMultiplier;
+        }
+
 
         void SetNavMeshAgent()
         {
@@ -74,5 +87,16 @@ namespace RPG.Characters
         }
 
         bool CanMove() { return GetComponent<Player>().IsDead(); }
+
+        void OnAnimatorMove()
+        {
+            if (Time.deltaTime > 0)
+            {
+                Vector3 velocity = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
+                velocity.y = characterRigidbody.velocity.y;
+                characterRigidbody.velocity = velocity;
+            }
+        }
+
     }
 }

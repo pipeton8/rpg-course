@@ -1,6 +1,5 @@
 using UnityEngine;
 
-// TODO change to RPG.Characters namespace
 namespace RPG.Characters
 {
 	[RequireComponent(typeof(Rigidbody))]
@@ -10,9 +9,9 @@ namespace RPG.Characters
 	{
 		[SerializeField] float movingTurnSpeed = 360;
 		[SerializeField] float stationaryTurnSpeed = 180;
-		[SerializeField] float animSpeedMultiplier = 1f;
 
-		Animator animator;
+        Rigidbody characterRigidbody;
+        Animator animator;
 		float turnAmount;
 		float forwardAmount;
 
@@ -25,12 +24,12 @@ namespace RPG.Characters
         void SetupAnimator()
         {
             animator = GetComponent<Animator>();
-            animator.speed = animSpeedMultiplier;
+            //animator.speed = moveSpeedMultiplier;
         }
 
         void SetupRigidbody()
         {
-            Rigidbody characterRigidbody = GetComponent<Rigidbody>();
+            characterRigidbody = GetComponent<Rigidbody>();
             characterRigidbody.constraints =    RigidbodyConstraints.FreezeRotationX | 
                                                 RigidbodyConstraints.FreezeRotationY | 
                                                 RigidbodyConstraints.FreezeRotationZ;
@@ -43,10 +42,10 @@ namespace RPG.Characters
 			turnAmount = Mathf.Atan2(move.x, move.z);
 			forwardAmount = move.z;
 			ApplyExtraTurnRotation();
-			UpdateAnimator(move);
+			UpdateAnimator();
 		}
 
-		void UpdateAnimator(Vector3 move)
+		void UpdateAnimator()
 		{
 			animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
 			animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
@@ -58,5 +57,5 @@ namespace RPG.Characters
 			float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
 			transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
 		}
-	}
+    }
 }
