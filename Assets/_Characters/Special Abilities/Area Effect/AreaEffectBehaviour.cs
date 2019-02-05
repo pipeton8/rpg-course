@@ -9,10 +9,6 @@ namespace RPG.Characters
 {
     public class AreaEffectBehaviour : AbilityBehaviour
     {
-        AreaEffect config;
-
-        public void SetConfig(AreaEffect configToSet) { config = configToSet; }
-
         public override void Use(AbilityUseParams useParams)
         {
             DealRadialDamage(useParams);
@@ -22,8 +18,8 @@ namespace RPG.Characters
 
         void DealRadialDamage(AbilityUseParams useParams)
         {
-            float totalDamage = useParams.baseDamage + config.GetDamage(); // TODO is this reasonable?
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, config.GetEffectRadius());
+            float totalDamage = useParams.baseDamage + (config as AreaEffect).GetDamage(); // TODO is this reasonable?
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, (config as AreaEffect).GetEffectRadius());
 
             foreach (Collider hitCollider in hitColliders)
             {
@@ -32,19 +28,10 @@ namespace RPG.Characters
             }
         }
 
-        void PlayParticleEffect()
-        {
-            GameObject particlePrefab = Instantiate(config.GetParticlePrefab(), transform);
-            ParticleSystem particles = particlePrefab.GetComponent<ParticleSystem>();
-            particles.Play();
-            float destroyDelay = particles.main.duration + particles.main.startLifetime.constantMax;
-            Destroy(particlePrefab, destroyDelay);
-        }
-
         private void PlaySoundEffect()
         {
             AudioSource audioSource = GetComponent<AudioSource>();
-            audioSource.PlayOneShot(config.GetSoundEffect());
+            audioSource.PlayOneShot((config as AreaEffect).GetSoundEffect());
         }
 
 
@@ -58,7 +45,7 @@ namespace RPG.Characters
         {
             // Draw area sphere 
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(gameObject.transform.position, config.GetEffectRadius());
+            Gizmos.DrawWireSphere(gameObject.transform.position, (config as AreaEffect).GetEffectRadius());
         }
     }
 }

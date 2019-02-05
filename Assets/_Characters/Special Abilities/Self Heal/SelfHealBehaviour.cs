@@ -9,13 +9,6 @@ namespace RPG.Characters
 {
     public class SelfHealBehaviour : AbilityBehaviour
     {
-        SelfHeal config;
-
-        public void SetConfig(SelfHeal configToSet)
-        {
-            config = configToSet;
-        }
-
         public override void Use(AbilityUseParams useParams)
         {
             CureUser();
@@ -32,17 +25,7 @@ namespace RPG.Characters
         private void CureUser()
         {
             IDamageable user = GetComponent<IDamageable>();
-            user.Heal(config.GetCureAmount());
+            user.Heal((config as SelfHeal).GetCureAmount());
         }
-
-        void PlayParticleEffect()
-        {
-            GameObject particlePrefab = Instantiate(config.GetParticlePrefab(), transform);
-            ParticleSystem particles = particlePrefab.GetComponent<ParticleSystem>();
-            particles.Play();
-            float destroyDelay = particles.main.duration + particles.main.startLifetime.constantMax;
-            Destroy(particlePrefab, destroyDelay);
-        }
-
     }
 }
