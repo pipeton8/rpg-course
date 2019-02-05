@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using RPG.Core;
-using System;
+﻿using RPG.Core;
 
 namespace RPG.Characters
 {
@@ -14,12 +9,6 @@ namespace RPG.Characters
             CureUser();
             PlayParticleEffect();
             PlaySoundEffect();
-        }
-
-        private void PlaySoundEffect()
-        {
-            AudioSource audioSource = GetComponent<AudioSource>();
-            audioSource.PlayOneShot(config.GetSoundEffect());
         }
 
         private void CureUser()

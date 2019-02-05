@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace RPG.Characters
+﻿namespace RPG.Characters
 {
     public class PowerAttackBehaviour : AbilityBehaviour
     {
@@ -10,6 +6,7 @@ namespace RPG.Characters
         {
             DealDamage(useParams);
             PlayParticleEffect();
+            PlaySoundEffect();
         }
 
         void DealDamage(AbilityUseParams useParams)

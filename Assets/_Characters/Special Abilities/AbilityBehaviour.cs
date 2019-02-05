@@ -23,6 +23,12 @@ namespace RPG.Characters
             StartCoroutine(DestroyParticleObject(particleObject));
         }
 
+        protected void PlaySoundEffect()
+        {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.PlayOneShot((config as AreaEffect).GetRandomSoundEffect());
+        }
+
         IEnumerator DestroyParticleObject(GameObject particleObject)
         {
             while (particleObject.GetComponent<ParticleSystem>().isPlaying)

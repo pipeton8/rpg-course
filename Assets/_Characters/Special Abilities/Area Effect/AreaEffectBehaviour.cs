@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 using RPG.Core;
-using System;
 
 namespace RPG.Characters
 {
@@ -27,13 +24,6 @@ namespace RPG.Characters
                 if (target != gameObject) { AttemptToDealDamage(target, totalDamage); }
             }
         }
-
-        private void PlaySoundEffect()
-        {
-            AudioSource audioSource = GetComponent<AudioSource>();
-            audioSource.PlayOneShot((config as AreaEffect).GetSoundEffect());
-        }
-
 
         void AttemptToDealDamage(GameObject target, float damage)
         {
