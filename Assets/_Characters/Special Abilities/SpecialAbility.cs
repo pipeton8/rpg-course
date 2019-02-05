@@ -23,9 +23,16 @@ namespace RPG.Characters
         [SerializeField] GameObject particlePrefab = null;
         [SerializeField] AudioClip[] soundEffects = null;
 
-        protected AbilityBehaviour behaviour;
+        protected SpecialAbilityBehaviour behaviour;
 
-        public abstract void AttachComponentTo(GameObject gameObjectToAttachTo);
+        public abstract SpecialAbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo);
+
+        public void AttachAbilityTo(GameObject objectToAttachTo)
+        {
+            SpecialAbilityBehaviour behaviourComponent = GetBehaviourComponent(objectToAttachTo);
+            behaviourComponent.SetConfig(this);
+            behaviour = behaviourComponent;
+        }
 
         public float GetEnergyCost() { return energyCost; }
 

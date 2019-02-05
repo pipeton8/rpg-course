@@ -4,7 +4,7 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
-    public class AreaEffectBehaviour : AbilityBehaviour
+    public class AreaEffectBehaviour : SpecialAbilityBehaviour
     {
         public override void Use(AbilityUseParams useParams)
         {

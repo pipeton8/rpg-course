@@ -2,7 +2,7 @@
 
 namespace RPG.Characters
 {
-    public class SelfHealBehaviour : AbilityBehaviour
+    public class SelfHealBehaviour : SpecialAbilityBehaviour
     {
         public override void Use(AbilityUseParams useParams)
         {

@@ -1,6 +1,6 @@
 ﻿namespace RPG.Characters
 {
-    public class PowerAttackBehaviour : AbilityBehaviour
+    public class PowerAttackBehaviour : SpecialAbilityBehaviour
     {
         public override void Use(AbilityUseParams useParams)
         {
