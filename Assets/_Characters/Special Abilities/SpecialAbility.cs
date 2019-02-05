@@ -23,7 +23,7 @@ namespace RPG.Characters
         [SerializeField] GameObject particlePrefab = null;
         [SerializeField] AudioClip soundEffect = null;
 
-        protected ISpecialAbility behaviour;
+        protected AbilityBehaviour behaviour;
 
         public abstract void AttachComponentTo(GameObject gameObjectToAttachTo);
 
@@ -34,10 +34,5 @@ namespace RPG.Characters
         public AudioClip GetSoundEffect() { return soundEffect; }
 
         public void Use(AbilityUseParams useParams) { behaviour.Use(useParams); }
-    }
-
-    public interface ISpecialAbility
-    {
-        void Use(AbilityUseParams useParams);
     }
 }

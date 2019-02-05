@@ -7,13 +7,13 @@ using System;
 
 namespace RPG.Characters
 {
-    public class AreaEffectBehaviour : MonoBehaviour, ISpecialAbility
+    public class AreaEffectBehaviour : AbilityBehaviour
     {
         AreaEffect config;
 
         public void SetConfig(AreaEffect configToSet) { config = configToSet; }
 
-        public void Use(AbilityUseParams useParams)
+        public override void Use(AbilityUseParams useParams)
         {
             DealRadialDamage(useParams);
             PlayParticleEffect();

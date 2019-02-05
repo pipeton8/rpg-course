@@ -7,7 +7,7 @@ using System;
 
 namespace RPG.Characters
 {
-    public class SelfHealBehaviour : MonoBehaviour, ISpecialAbility
+    public class SelfHealBehaviour : AbilityBehaviour
     {
         SelfHeal config;
 
@@ -16,7 +16,7 @@ namespace RPG.Characters
             config = configToSet;
         }
 
-        public void Use(AbilityUseParams useParams)
+        public override void Use(AbilityUseParams useParams)
         {
             CureUser();
             PlayParticleEffect();
