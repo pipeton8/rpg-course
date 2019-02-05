@@ -122,14 +122,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7a80d520cacc042b5fe14f373d8173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovingTurnSpeed: 1800
-  m_StationaryTurnSpeed: 900
-  m_JumpPower: 6
-  m_GravityMultiplier: 2
-  m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 1
-  m_AnimSpeedMultiplier: 1.5
-  m_GroundCheckDistance: 0.3
+  movingTurnSpeed: 720
+  stationaryTurnSpeed: 360
+  animSpeedMultiplier: 1.25
 --- !u!114 &293319975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d33f7a3d436f4fc09f8f197dff795da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stoppingDistance: 1
 --- !u!114 &2112122996724321227
 MonoBehaviour:
   m_ObjectHideFlags: 0
