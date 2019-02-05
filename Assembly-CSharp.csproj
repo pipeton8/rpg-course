@@ -80,6 +80,9 @@
     <Compile Include="Assets\_Characters\Special Abilities\SpecialAbility.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\SpecialAbilityBehaviour.cs" />
     <Compile Include="Assets\_Characters\ThirdPersonCharacter.cs" />
+    <Compile Include="Assets\_Characters\Weapons\Ranged\Projectile.cs" />
+    <Compile Include="Assets\_Characters\Weapons\Weapon.cs" />
+    <Compile Include="Assets\_Characters\Weapons\WeaponPickup.cs" />
     <Compile Include="Assets\_Core\AudioTrigger.cs" />
     <Compile Include="Assets\_Core\IDamageable.cs" />
     <Compile Include="Assets\_Core\SpinMe.cs" />
@@ -91,8 +94,6 @@
     <Compile Include="Assets\_Environment\Water\Scripts\Water.cs" />
     <Compile Include="Assets\_Environment\Water\Scripts\WaterBase.cs" />
     <Compile Include="Assets\_Environment\Water\Scripts\WaterTile.cs" />
-    <Compile Include="Assets\_Weapons\Ranged\Projectile.cs" />
-    <Compile Include="Assets\_Weapons\Weapon.cs" />
     <None Include="Assets\_Environment\Water\DO_NOT_WORK_IN_VR.txt" />
     <None Include="Assets\Asset Packs - For Students\SimpleFX - Synty\Materials\UnlitVertexColour_Alpha.shader" />
     <None Include="Assets\_Environment\Water\Shaders\FXWaterPro.shader" />

@@ -12,7 +12,7 @@ namespace RPG.Characters
 
         public override SpecialAbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo)
         {
-            return objectToAttachTo.AddComponent<AreaEffectBehaviour>();
+            return objectToAttachTo.AddComponent<SelfHealBehaviour>();
         }
 
         public float GetCureAmount() { return amountToHeal; }

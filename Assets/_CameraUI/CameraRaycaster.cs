@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 
 using RPG.Characters; // So we can detect by type
 

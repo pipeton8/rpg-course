@@ -26,7 +26,7 @@ namespace RPG.Characters
         protected void PlaySoundEffect()
         {
             AudioSource audioSource = GetComponent<AudioSource>();
-            audioSource.PlayOneShot((config as AreaEffect).GetRandomSoundEffect());
+            audioSource.PlayOneShot(config.GetRandomSoundEffect());
         }
 
         IEnumerator DestroyParticleObject(GameObject particleObject)

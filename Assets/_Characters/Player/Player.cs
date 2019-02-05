@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 // TODO consider re-wiring
 using RPG.CameraUI;
 using RPG.Core;
-using RPG.Weapons;
-using System;
 
 namespace RPG.Characters
 {
@@ -31,6 +29,7 @@ namespace RPG.Characters
         const string DEATH_TRIGGER = "Death";
 
         GameObject dominantHand;
+        GameObject weaponInHand;
         Enemy currentEnemy = null;
         AudioSource audioSource;
         CameraRaycaster cameraRaycaster;
@@ -60,6 +59,14 @@ namespace RPG.Characters
 
         public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
 
+        public void ChangeWeapon(Weapon newWeapon)
+        {
+            Destroy(weaponInHand);
+            weaponInUse = newWeapon;
+            PutWeaponInHand();
+            SetAttackAnimation();
+        }
+
         void Start()
         {
             energy = GetComponent<Energy>();
@@ -72,7 +79,7 @@ namespace RPG.Characters
             SetAudioSource();
         }
 
-        private void AttachInitialAbilities()
+        void AttachInitialAbilities()
         {
             for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++)
             {
@@ -96,7 +103,7 @@ namespace RPG.Characters
         void PutWeaponInHand()
         {
             dominantHand = RequestDominantHand();
-            GameObject weaponInHand = Instantiate(weaponInUse.GetWeapon(), dominantHand.transform);
+            weaponInHand = Instantiate(weaponInUse.GetWeapon(), dominantHand.transform);
             weaponInHand.transform.localPosition = weaponInUse.gripTransform.localPosition;
             weaponInHand.transform.localRotation = weaponInUse.gripTransform.localRotation;
         }
