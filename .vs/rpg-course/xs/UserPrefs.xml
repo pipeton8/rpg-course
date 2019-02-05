@@ -3,8 +3,7 @@
     <Files>
       <File FileName="Assets/_Characters/Player/Player.cs" Line="12" Column="47" />
       <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="67" Column="1" />
-      <File FileName="Assets/_Characters/Player/CharacterMovement.cs" Line="18" Column="35" />
-      <File FileName="Assets/_Characters/ThirdPersonCharacter.cs" Line="69" Column="14" />
+      <File FileName="Assets/_Characters/Player/CharacterMovement.cs" Line="95" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

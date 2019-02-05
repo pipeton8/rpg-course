@@ -78,7 +78,6 @@
     <Compile Include="Assets\_Characters\Special Abilities\Self Heal\SelfHealBehaviour.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\SpecialAbility.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\SpecialAbilityBehaviour.cs" />
-    <Compile Include="Assets\_Characters\ThirdPersonCharacter.cs" />
     <Compile Include="Assets\_Characters\Weapons\Ranged\Projectile.cs" />
     <Compile Include="Assets\_Characters\Weapons\Weapon.cs" />
     <Compile Include="Assets\_Characters\Weapons\WeaponPickup.cs" />
