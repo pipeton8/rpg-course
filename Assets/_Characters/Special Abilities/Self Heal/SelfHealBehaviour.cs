@@ -40,7 +40,8 @@ namespace RPG.Characters
             GameObject particlePrefab = Instantiate(config.GetParticlePrefab(), transform);
             ParticleSystem particles = particlePrefab.GetComponent<ParticleSystem>();
             particles.Play();
-            Destroy(particlePrefab, particles.main.duration);
+            float destroyDelay = particles.main.duration + particles.main.startLifetime.constantMax;
+            Destroy(particlePrefab, destroyDelay);
         }
 
     }

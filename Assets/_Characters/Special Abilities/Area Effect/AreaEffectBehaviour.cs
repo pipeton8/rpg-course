@@ -17,6 +17,7 @@ namespace RPG.Characters
         {
             DealRadialDamage(useParams);
             PlayParticleEffect();
+            PlaySoundEffect();
         }
 
         void DealRadialDamage(AbilityUseParams useParams)
@@ -36,8 +37,16 @@ namespace RPG.Characters
             GameObject particlePrefab = Instantiate(config.GetParticlePrefab(), transform);
             ParticleSystem particles = particlePrefab.GetComponent<ParticleSystem>();
             particles.Play();
-            Destroy(particlePrefab, particles.main.duration);
+            float destroyDelay = particles.main.duration + particles.main.startLifetime.constantMax;
+            Destroy(particlePrefab, destroyDelay);
         }
+
+        private void PlaySoundEffect()
+        {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.PlayOneShot(config.GetSoundEffect());
+        }
+
 
         void AttemptToDealDamage(GameObject target, float damage)
         {

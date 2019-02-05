@@ -417,15 +417,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
-      propertyPath: criticalHitParticlePrefab
-      value: 
-      objectReference: {fileID: 6065228353062360269, guid: 4bdda92720cbe4c62a0812c776ae4470,
-        type: 3}
-    - target: {fileID: 293319975, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
-      propertyPath: maxHealthPoints
-      value: 100000
-      objectReference: {fileID: 0}
     - target: {fileID: 2112122996724321227, guid: 178edfe1c65414b72bcec4d75f09036e,
         type: 3}
       propertyPath: energyBar
