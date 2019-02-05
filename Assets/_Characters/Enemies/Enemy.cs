@@ -5,12 +5,10 @@ using RPG.Core; // TODO consider re-wire
 
 namespace RPG.Characters
 {
-    public class Enemy : MonoBehaviour, IDamageable
+    public class Enemy : MonoBehaviour
     {
 
-        [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] float chaseRadius = 6f;
-
         [SerializeField] float attackRadius = 4f;
         [SerializeField] float damagePerShot = 9f;
         [SerializeField] float secondsBetweenShots = 0.5f;
@@ -20,33 +18,12 @@ namespace RPG.Characters
         [SerializeField] Vector3 aimOffset = new Vector3(0, 1f, 0);
 
         bool isAttacking = false;
-        float currentHealthPoints;
         GameObject player = null;
-
-        // IDamageable methods
-        public bool IsDead() { return currentHealthPoints <= 0; }
-
-        public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
-
-        public void TakeDamage(float damage)
-        {
-            if (IsDead()) { return; }
-            float newHealthPoints = currentHealthPoints - damage;
-            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
-            if (IsDead()) { Destroy(gameObject); }
-        }
-
-        public void Heal(float amount)
-        {
-            float newHealthPoints = currentHealthPoints + amount;
-            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
-        }
 
         void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
             //aiCharacterControl = GetComponent<AICharacterControl>();
-            currentHealthPoints = maxHealthPoints;
         }
 
         void Update()

@@ -5,19 +5,14 @@ using UnityEngine.SceneManagement;
 
 // TODO consider re-wiring
 using RPG.CameraUI;
-using RPG.Core;
 
 namespace RPG.Characters
 {
-    public class Player : MonoBehaviour, IDamageable
+    public class Player : MonoBehaviour
     {
-        [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] float baseDamage = 10f;
         [SerializeField] Weapon weaponInUse = null;
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
-        [SerializeField] AudioClip[] damageSounds = null;
-        [SerializeField] AudioClip[] deathSounds = null;
-        [SerializeField] AnimationClip[] deathAnimations = null;
         [Range(.1f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
         [SerializeField] float criticalHitMultiplier = 1.25f;
         [SerializeField] GameObject criticalHitParticlePrefab = null;
@@ -26,38 +21,14 @@ namespace RPG.Characters
         [SerializeField] SpecialAbility[] abilities = null;
 
         const string ATTACK_TRIGGER = "Attack";
-        const string DEATH_TRIGGER = "Death";
 
         GameObject dominantHand;
         GameObject weaponInHand;
         Enemy currentEnemy = null;
-        AudioSource audioSource;
         CameraRaycaster cameraRaycaster;
         Animator animator;
         Energy energy;
-        float currentHealthPoints;
         float lastHitTime;
-        AudioClip deathSound;
-        AnimationClip deathAnimation;
-        
-        public bool IsDead() { return currentHealthPoints <= 0; }
-
-        public void TakeDamage(float damage)
-        {
-            if (IsDead()) { return; }
-            PlayDamageSound();
-            float newHealthPoints = currentHealthPoints - damage;
-            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
-            if (IsDead()) { StartCoroutine(KillPlayer()); }
-        }
-
-        public void Heal(float amount)
-        {
-            float newHealthPoints = currentHealthPoints + amount;
-            currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
-        }
-
-        public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
 
         public void ChangeWeapon(Weapon newWeapon)
         {
@@ -72,11 +43,9 @@ namespace RPG.Characters
             energy = GetComponent<Energy>();
 
             RegisterForEnemyCursor();
-            SetCurrentMaxHealth();
             PutWeaponInHand();
             SetupRuntimeAnimator();
             AttachInitialAbilities();
-            SetAudioSource();
         }
 
         void AttachInitialAbilities()
@@ -98,8 +67,6 @@ namespace RPG.Characters
             cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
         }
 
-        void SetCurrentMaxHealth() { currentHealthPoints = maxHealthPoints; }
-
         void PutWeaponInHand()
         {
             dominantHand = RequestDominantHand();
@@ -113,29 +80,11 @@ namespace RPG.Characters
             animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = animatorOverrideController;
             SetAttackAnimation();
-            SetDeathAnimation();
         }
 
         void SetAttackAnimation()
         {
             animatorOverrideController["DEFAULT_ATTACK"] = weaponInUse.GetAnimClip(); // remove const 
-        }
-
-        void SetDeathAnimation()
-        {
-            GetDeathAnimation();
-            animatorOverrideController["DEFAULT_DEATH"] = deathAnimation; // remove const 
-        }
-
-        void GetDeathAnimation() 
-        {
-            deathAnimation = deathAnimations[UnityEngine.Random.Range(0, deathAnimations.Length)];
-        }
-
-        void SetAudioSource()
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.loop = false;
         }
 
         void ScanForAbilityKeyDown()
@@ -149,8 +98,6 @@ namespace RPG.Characters
             }
 
         }
-
-        void GetDeathSound() { deathSound = deathSounds[UnityEngine.Random.Range(0, deathSounds.Length)]; }
 
         void OnMouseOverEnemy(Enemy enemy)
         {
@@ -226,12 +173,6 @@ namespace RPG.Characters
             lastHitTime = Time.time;
         }
 
-        void PlayDamageSound()
-        {
-            if (audioSource.isPlaying) { return; }
-            int index = UnityEngine.Random.Range(0, damageSounds.Length);
-            audioSource.PlayOneShot(damageSounds[index]);
-        }
 
         GameObject RequestDominantHand()
         {
@@ -242,36 +183,6 @@ namespace RPG.Characters
             Assert.IsFalse(totalDominantHands > 1, "Multiple Dominant Hand scripts on Player, please remove one");
 
             return dominantHands[0].gameObject;
-        }
-
-        IEnumerator KillPlayer()
-        {
-            TriggerDeathAnimation();
-            PlayDeathSound();
-
-            float lengthToWait = Mathf.Max(deathSound.length, deathAnimation.length) + 0.1f;
-            yield return new WaitForSeconds(lengthToWait);
-
-            ReloadScene();
-        }
-
-        void ReloadScene()
-        {
-            Scene activeScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(activeScene.buildIndex);
-        }
-
-        void TriggerDeathAnimation()
-        {
-            animator = GetComponent<Animator>();
-            animator.SetTrigger(DEATH_TRIGGER);
-        }
-
-        void PlayDeathSound()
-        {
-            audioSource.Stop();
-            GetDeathSound();
-            audioSource.PlayOneShot(deathSound);
         }
     }
 }
