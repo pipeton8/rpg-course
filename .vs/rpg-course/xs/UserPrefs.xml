@@ -1,8 +1,10 @@
 ﻿<Properties StartupConfiguration="{E83E9C53-F0F9-D518-3F02-509CDF0B5E87}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Enemies/Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_CameraUI/CameraRaycaster.cs">
     <Files>
       <File FileName="Assets/_Characters/Player/Player.cs" Line="12" Column="47" />
-      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="5" Column="1" />
+      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="67" Column="1" />
+      <File FileName="Assets/_Characters/Player/CharacterMovement.cs" Line="11" Column="32" />
+      <File FileName="Assets/_CameraUI/CameraRaycaster.cs" Line="73" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

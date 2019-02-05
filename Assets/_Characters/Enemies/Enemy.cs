@@ -21,7 +21,6 @@ namespace RPG.Characters
 
         bool isAttacking = false;
         float currentHealthPoints;
-        AICharacterControl aiCharacterControl = null;
         GameObject player = null;
 
         // IDamageable methods
@@ -46,7 +45,7 @@ namespace RPG.Characters
         void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
-            aiCharacterControl = GetComponent<AICharacterControl>();
+            //aiCharacterControl = GetComponent<AICharacterControl>();
             currentHealthPoints = maxHealthPoints;
         }
 
@@ -61,10 +60,10 @@ namespace RPG.Characters
         {
             if (distanceToPlayer <= chaseRadius)
             {
-                aiCharacterControl.SetTarget(player.transform);
+                //aiCharacterControl.SetTarget(player.transform);
                 return;
             }
-            aiCharacterControl.SetTarget(transform);
+            //aiCharacterControl.SetTarget(transform);
         }
 
         void AttackProtocol(float distanceToPlayer)
