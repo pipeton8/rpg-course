@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-using RPG.Core; // TODO consider re-wire
-
 namespace RPG.Characters
 {
     public class Enemy : MonoBehaviour
@@ -55,7 +53,7 @@ namespace RPG.Characters
 
         void StopAttacking() { isAttacking = false; StopAllCoroutines(); }
 
-        bool PlayerIsDead() { return player.GetComponent<IDamageable>().IsDead(); }
+        bool PlayerIsDead() { return player.GetComponent<HealthSystem>().IsDead(); }
 
         // TODO separate our character firing logic (in different class)
         IEnumerator SpawnProjectile()

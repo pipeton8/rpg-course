@@ -12,7 +12,7 @@
         void DealDamage(AbilityUseParams useParams)
         {
             float totalDamage = useParams.baseDamage + (config as PowerAttack).GetExtraDamage();
-            useParams.target.TakeDamage(totalDamage);
+            useParams.target.GetComponent<HealthSystem>().TakeDamage(totalDamage);
         }
     }
 }

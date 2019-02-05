@@ -28,6 +28,7 @@ namespace RPG.Characters
         CameraRaycaster cameraRaycaster;
         Animator animator;
         Energy energy;
+        HealthSystem healthSystem;
         float lastHitTime;
 
         public void ChangeWeapon(Weapon newWeapon)
@@ -41,6 +42,7 @@ namespace RPG.Characters
         void Start()
         {
             energy = GetComponent<Energy>();
+            healthSystem = GetComponent<HealthSystem>();
 
             RegisterForEnemyCursor();
             PutWeaponInHand();
@@ -58,7 +60,7 @@ namespace RPG.Characters
 
         void Update()
         {
-            if (!IsDead()) { ScanForAbilityKeyDown(); }
+            if (!healthSystem.IsDead()) { ScanForAbilityKeyDown(); }
         }
 
         void RegisterForEnemyCursor()
@@ -101,7 +103,7 @@ namespace RPG.Characters
 
         void OnMouseOverEnemy(Enemy enemy)
         {
-            if (enemy.IsDead()) { return; }
+            if (enemy.GetComponent<HealthSystem>().IsDead()) { return; }
 
             currentEnemy = enemy;
             if (CanAttack() && IsTargetInRange())
@@ -119,7 +121,7 @@ namespace RPG.Characters
 
         bool CanAttack()
         {
-            if (IsDead()) { return false; }
+            if (healthSystem.IsDead()) { return false; }
             float timeSinceLastAttack = Time.time - lastHitTime;
             return timeSinceLastAttack > weaponInUse.GetMinTimeBetweenHits();
         }
@@ -163,7 +165,7 @@ namespace RPG.Characters
             animator.SetTrigger(ATTACK_TRIGGER);
         }
 
-        void DealDamage(float damage) { currentEnemy.TakeDamage(damage); }
+        void DealDamage(float damage) { currentEnemy.GetComponent<HealthSystem>().TakeDamage(damage); }
 
         void SpecialAttack(int abilityIndex)
         {

@@ -15,7 +15,7 @@ namespace RPG.Characters
         [SerializeField] AnimationClip[] deathAnimations = null;
         // TODO maybe a parameter for character vanishing
 
-        const string DEATH_TRIGGER = "Death";
+        const string DEATH_TRIGGER = "Death"; 
 
         float currentHealthPoints;
         AudioSource audioSource;
@@ -95,9 +95,9 @@ namespace RPG.Characters
             {
                 ReloadScene();
             }
-            else 
-            { 
-                Destroy(gameObject); 
+            else
+            {
+                Destroy(gameObject);
             }
         }
 

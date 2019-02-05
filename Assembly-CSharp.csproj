@@ -63,10 +63,8 @@
     <Compile Include="Assets\_CameraUI\CameraFollow.cs" />
     <Compile Include="Assets\_CameraUI\CameraRaycaster.cs" />
     <Compile Include="Assets\_Characters\Enemies\Enemy.cs" />
-    <Compile Include="Assets\_Characters\Enemies\EnemyHealthBar.cs" />
     <Compile Include="Assets\_Characters\Enemies\EnemyUI.cs" />
     <Compile Include="Assets\_Characters\Player\Player.cs" />
-    <Compile Include="Assets\_Characters\Player\PlayerHealthBar.cs" />
     <Compile Include="Assets\_Characters\Scripts\CharacterMovement.cs" />
     <Compile Include="Assets\_Characters\Scripts\DominantHand.cs" />
     <Compile Include="Assets\_Characters\Scripts\Energy.cs" />
@@ -83,7 +81,6 @@
     <Compile Include="Assets\_Characters\Weapons\Weapon.cs" />
     <Compile Include="Assets\_Characters\Weapons\WeaponPickup.cs" />
     <Compile Include="Assets\_Core\AudioTrigger.cs" />
-    <Compile Include="Assets\_Core\IDamageable.cs" />
     <Compile Include="Assets\_Core\SpinMe.cs" />
     <Compile Include="Assets\_Environment\Water\Scripts\Displace.cs" />
     <Compile Include="Assets\_Environment\Water\Scripts\GerstnerDisplace.cs" />

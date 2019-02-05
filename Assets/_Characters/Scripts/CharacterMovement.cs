@@ -66,13 +66,13 @@ namespace RPG.Characters
 
         void OnWalkableLayer(Vector3 destination)
         {
-            if (GetComponent<Player>().IsDead()) { return; }
+            if (GetComponent<HealthSystem>().IsDead()) { return; }
             if (Input.GetMouseButton(0)) { agent.SetDestination(destination); }
         }
 
         void OnMouseOverEnemy(Enemy enemy)
         {
-            if (GetComponent<Player>().IsDead()) { return; }
+            if (GetComponent<HealthSystem>().IsDead()) { return; }
 
             if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
             {

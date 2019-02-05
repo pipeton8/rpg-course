@@ -27,7 +27,7 @@ namespace RPG.Characters
 
         void AttemptToDealDamage(GameObject target, float damage)
         {
-            var possibleTarget = target.GetComponent<IDamageable>();
+            var possibleTarget = target.GetComponent<HealthSystem>();
             if (possibleTarget != null) { possibleTarget.TakeDamage(damage); }
         }
 

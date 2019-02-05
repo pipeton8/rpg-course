@@ -13,8 +13,8 @@ namespace RPG.Characters
 
         private void CureUser()
         {
-            IDamageable user = GetComponent<IDamageable>();
-            user.Heal((config as SelfHeal).GetCureAmount());
+            HealthSystem userHealthSystem = GetComponent<HealthSystem>();
+            userHealthSystem.Heal((config as SelfHeal).GetCureAmount());
         }
     }
 }

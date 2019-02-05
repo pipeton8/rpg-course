@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 
-// TODO consider re-wiring
-using RPG.Core;
-
 namespace RPG.Characters
 {
     public class Projectile : MonoBehaviour
@@ -31,8 +28,8 @@ namespace RPG.Characters
 
         private void DamageIfDamageable(Collision collision)
         {
-            Component damageableComponent = collision.gameObject.GetComponent(typeof(IDamageable));
-            if (damageableComponent)  { (damageableComponent as IDamageable).TakeDamage(damage); }
+            Component damageableComponent = collision.gameObject.GetComponent(typeof(HealthSystem));
+            if (damageableComponent)  { (damageableComponent as HealthSystem).TakeDamage(damage); }
         }
     }
 }

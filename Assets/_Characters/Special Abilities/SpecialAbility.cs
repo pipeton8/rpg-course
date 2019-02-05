@@ -6,10 +6,10 @@ namespace RPG.Characters
 {
     public struct AbilityUseParams
     {
-        public IDamageable target;
+        public Enemy target;
         public float baseDamage;
 
-        public AbilityUseParams(IDamageable newTarget, float damage)
+        public AbilityUseParams(Enemy newTarget, float damage)
         {
             target = newTarget;
             baseDamage = damage;

@@ -1,8 +1,11 @@
 ﻿<Properties StartupConfiguration="{E83E9C53-F0F9-D518-3F02-509CDF0B5E87}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Player/PlayerHealthBar.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Special Abilities/Area Effect/AreaEffectBehaviour.cs">
     <Files>
-      <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="100" Column="17" />
-      <File FileName="Assets/_Characters/Player/PlayerHealthBar.cs" Line="24" Column="1" />
+      <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="126" Column="2" />
+      <File FileName="Assets/_Characters/Player/Player.cs" Line="173" Column="24" />
+      <File FileName="Assets/_Characters/Weapons/Ranged/Projectile.cs" Line="2" Column="1" />
+      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="56" Column="70" />
+      <File FileName="Assets/_Characters/Special Abilities/Area Effect/AreaEffectBehaviour.cs" Line="30" Column="66" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
