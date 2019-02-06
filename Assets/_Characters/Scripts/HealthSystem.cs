@@ -19,7 +19,7 @@ namespace RPG.Characters
 
         float currentHealthPoints;
         AudioSource audioSource;
-        CharacterMovement characterMovement;
+        Character characterMovement;
         AudioClip deathSound;
         AnimationClip deathAnimation;
 
@@ -44,7 +44,7 @@ namespace RPG.Characters
 
         void Start()
         {
-            characterMovement = GetComponent<CharacterMovement>();
+            characterMovement = GetComponent<Character>();
 
             SetAudioSource();
             SetCurrentMaxHealth();
