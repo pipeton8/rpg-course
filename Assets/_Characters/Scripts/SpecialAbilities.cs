@@ -36,9 +36,9 @@ namespace RPG.Characters
 
         private void RegisterForAbilityUse()
         {
-            PlayerMovement player = GetComponent<PlayerMovement>();
+            PlayerControl player = GetComponent<PlayerControl>();
             if (player == null) { return; }
-            player.onAbilityUse += OnAbilityUse;
+            player.onAbilityKeyPress += OnAbilityUse;
         }
 
         void Update()

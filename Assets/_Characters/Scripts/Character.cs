@@ -35,23 +35,19 @@ namespace RPG.Characters
         [Header("Rigidbody")]
         [SerializeField] CollisionDetectionMode collisionDetectionMode = CollisionDetectionMode.Continuous;
 
-        HealthSystem healthSystem;
+        bool isDead;
         Animator animator;
         NavMeshAgent navMeshAgent;
         Rigidbody rigidBody;
         float turnAmount;
         float forwardAmount;
 
+        public void Kill() { isDead = true; }
         public void SetDestination(Vector3 destination) { navMeshAgent.destination = destination; }
 
         void Awake()
         {
             AddRequiredComponents();
-        }
-
-        void Start()
-        {
-            healthSystem = GetComponent<HealthSystem>();
         }
 
         void Update()
@@ -112,7 +108,7 @@ namespace RPG.Characters
 
         void HandleMovement()
         {
-            if (healthSystem.isDead) { navMeshAgent.isStopped = true; }
+            if (isDead) { navMeshAgent.isStopped = true; }
             else if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance) { Move(navMeshAgent.desiredVelocity); }
             else { Move(Vector3.zero); }
         }

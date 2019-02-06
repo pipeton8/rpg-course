@@ -13,7 +13,6 @@ namespace RPG.Characters
         [SerializeField] AudioClip[] damageSounds = null;
         [SerializeField] AudioClip[] deathSounds = null;
         [SerializeField] AnimationClip[] deathAnimations = null;
-        // TODO maybe a parameter for character vanishing
 
         const string DEATH_TRIGGER = "Death"; 
 
@@ -91,7 +90,7 @@ namespace RPG.Characters
             float lengthToWait = Mathf.Max(deathSound.length, deathAnimation.length) + 0.1f;
             yield return new WaitForSeconds(lengthToWait);
 
-            PlayerMovement playerComponent = GetComponent<PlayerMovement>();
+            PlayerControl playerComponent = GetComponent<PlayerControl>();
             if (playerComponent && playerComponent.isActiveAndEnabled)
             {
                 ReloadScene();

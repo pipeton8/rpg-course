@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Characters
 {
@@ -12,7 +10,7 @@ namespace RPG.Characters
         [SerializeField] GameObject weaponPrefab = null;
         [SerializeField] AnimationClip attackAnimation = null;
 
-        [SerializeField] float minTimeBetweenHits = .5f; // TODO consider wheter we take anumation time into account
+        [SerializeField] float minTimeBetweenHits = .5f; // TODO consider wheter we take animation time into account
         [SerializeField] float maxAttackRange = 2f;
         [SerializeField] float additionalDamage = 10f;
 
@@ -31,7 +29,8 @@ namespace RPG.Characters
         }
 
         // So that asset packs don't cause crashes
-        private void RemoveAnimationEvents()  {
+        private void RemoveAnimationEvents()
+        {
             attackAnimation.events = new AnimationEvent[0];
         }
     }
