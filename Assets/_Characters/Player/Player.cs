@@ -25,7 +25,7 @@ namespace RPG.Characters
         HealthSystem healthSystem;
         float lastHitTime;
 
-        public delegate void OnAbilityUse(int abilityIndex, GameObject target);
+        public delegate void OnAbilityUse(int abilityIndex, GameObject target = null);
         public event OnAbilityUse onAbilityUse;
 
         public void ChangeWeapon(Weapon newWeapon)
@@ -83,7 +83,8 @@ namespace RPG.Characters
             {
                 if (Input.GetKeyDown(abilityIndex.ToString())) 
                 {
-                    onAbilityUse(abilityIndex, currentEnemy.gameObject);
+                    if (currentEnemy == null) { onAbilityUse(abilityIndex); }
+                    else { onAbilityUse(abilityIndex,currentEnemy.gameObject); }
                     return;
                 }
             }

@@ -10,7 +10,7 @@ namespace RPG.Characters
 
         protected SpecialAbility config;
 
-        public abstract void Use(GameObject target = null);
+        public abstract void Use(GameObject target);
 
         public void SetConfig(SpecialAbility configToSet) { config = configToSet; }
 

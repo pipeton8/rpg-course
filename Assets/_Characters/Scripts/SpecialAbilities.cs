@@ -9,9 +9,9 @@ namespace RPG.Characters
     {
         [SerializeField] SpecialAbility[] abilities = null;
         [SerializeField] Image energyBar = null;
+        [SerializeField] AudioClip outOfEnergySound = null;
         [SerializeField] float maxEnergyPoints = 100f;
         [SerializeField] float regenPointsPerSecond = 10f;
-        // todo add AudioClip outOfEnergy;
 
         float currentEnergyPoints;
         AudioSource audioSource;
@@ -67,7 +67,11 @@ namespace RPG.Characters
         void OnAbilityUse(int abilityIndex, GameObject target)
         {
             float energyCost = abilities[abilityIndex].GetEnergyCost();
-            if (energyCost > currentEnergyPoints) { return; }
+            if (energyCost > currentEnergyPoints) 
+            {
+                audioSource.PlayOneShot(outOfEnergySound);
+                return; 
+            }
             ConsumeEnergy(energyCost);
             abilities[abilityIndex].Use(target);
         }
