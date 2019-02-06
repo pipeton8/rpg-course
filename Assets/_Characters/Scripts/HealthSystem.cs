@@ -14,11 +14,12 @@ namespace RPG.Characters
         [SerializeField] AudioClip[] deathSounds = null;
         [SerializeField] AnimationClip[] deathAnimations = null;
 
-        const string DEATH_TRIGGER = "Death"; 
+        const string DEATH_TRIGGER = "Death";
+        const string DEFAULT_DEATH = "DEFAULT_DEATH";
 
-        float currentHealthPoints;
         AudioSource audioSource;
-        Character characterMovement;
+        float currentHealthPoints;
+        Animator animator;
         AudioClip deathSound;
         AnimationClip deathAnimation;
 
@@ -43,17 +44,10 @@ namespace RPG.Characters
 
         void Start()
         {
-            characterMovement = GetComponent<Character>();
-
-            SetAudioSource();
-            SetCurrentMaxHealth();
-            SetDeathAnimation();
-        }
-
-        private void SetAudioSource()
-        {
             audioSource = GetComponent<AudioSource>();
-            audioSource.loop = false;
+
+            SetCurrentMaxHealth();
+            SetupAnimationsForDeathAndDamage();
         }
 
         void Update()
@@ -63,15 +57,17 @@ namespace RPG.Characters
 
         void SetCurrentMaxHealth() { currentHealthPoints = maxHealthPoints; }
 
-        void SetDeathAnimation()
+        void SetupAnimationsForDeathAndDamage()
         {
+            animator = GetComponent<Animator>();
             deathAnimation = deathAnimations[Random.Range(0, deathAnimations.Length)];
-            animatorOverrideController["DEFAULT_DEATH"] = deathAnimation; // remove const 
+            animatorOverrideController = GetComponent<Character>().runtimeAnimatorController;
+            animatorOverrideController[DEFAULT_DEATH] = deathAnimation;
         }
 
         void UpdateHealthBar()
         {
-            if (healthBar == null) { return; } // some enemies may not have a healthbar
+            if (healthBar == null) { return; } // some characters may not have a healthbar
             healthBar.fillAmount = healthAsPercentage;
         }
 
@@ -101,17 +97,7 @@ namespace RPG.Characters
             }
         }
 
-        void ReloadScene()
-        {
-            Scene activeScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(activeScene.buildIndex);
-        }
-
-        void TriggerDeathAnimation()
-        {
-            Animator animator = GetComponent<Animator>();
-            animator.SetTrigger(DEATH_TRIGGER);
-        }
+        void TriggerDeathAnimation() { animator.SetTrigger(DEATH_TRIGGER); }
 
         void PlayDeathSound()
         {
@@ -122,5 +108,11 @@ namespace RPG.Characters
         }
 
         void GetDeathSound() { deathSound = deathSounds[Random.Range(0, deathSounds.Length)]; }
+
+        void ReloadScene()
+        {
+            Scene activeScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(activeScene.buildIndex);
+        }
     }
 }

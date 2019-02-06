@@ -1,11 +1,12 @@
 ﻿<Properties StartupConfiguration="{E83E9C53-F0F9-D518-3F02-509CDF0B5E87}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Scripts/SpecialAbilities.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Scripts/WeaponSystem.cs">
     <Files>
-      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="56" Column="80" />
-      <File FileName="Assets/_Characters/Player/PlayerControl.cs" Line="48" Column="31" />
-      <File FileName="Assets/_Characters/Scripts/Character.cs" Line="111" Column="17" />
-      <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="93" Column="13" />
-      <File FileName="Assets/_Characters/Scripts/SpecialAbilities.cs" Line="65" Column="1" />
+      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="52" Column="17" />
+      <File FileName="Assets/_Characters/Player/PlayerControl.cs" Line="38" Column="1" />
+      <File FileName="Assets/_Characters/Scripts/Character.cs" Line="11" Column="29" />
+      <File FileName="Assets/_Characters/Scripts/SpecialAbilities.cs" Line="22" Column="28" />
+      <File FileName="Assets/_Characters/Scripts/WeaponSystem.cs" Line="79" Column="39" />
+      <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="76" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

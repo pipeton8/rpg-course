@@ -19,6 +19,18 @@ namespace RPG.Characters
         public int numberOfAbilities { get { return abilities.Length; } }
         float energyAsPercentage { get { return currentEnergyPoints / maxEnergyPoints; } }
 
+        public void RequestUse(int abilityIndex, GameObject target = null)
+        {
+            float energyCost = abilities[abilityIndex].GetEnergyCost();
+            if (energyCost > currentEnergyPoints)
+            {
+                audioSource.PlayOneShot(outOfEnergySound);
+                return;
+            }
+            ConsumeEnergy(energyCost);
+            abilities[abilityIndex].Use(target);
+        }
+
         public void ConsumeEnergy(float amount)
         {
             currentEnergyPoints = Mathf.Clamp(currentEnergyPoints - amount, 0f, maxEnergyPoints);
@@ -29,16 +41,8 @@ namespace RPG.Characters
         void Start()
         {
             audioSource = GetComponent<AudioSource>();
-            RegisterForAbilityUse();
             SetMaxEnergyPoints();
             AttachInitialAbilities();
-        }
-
-        private void RegisterForAbilityUse()
-        {
-            PlayerControl player = GetComponent<PlayerControl>();
-            if (player == null) { return; }
-            player.onAbilityKeyPress += OnAbilityUse;
         }
 
         void Update()
@@ -63,17 +67,5 @@ namespace RPG.Characters
         void SetMaxEnergyPoints() { currentEnergyPoints = maxEnergyPoints; }
 
         void UpdateEnergyBar() { energyBar.fillAmount = energyAsPercentage; }
-
-        void OnAbilityUse(int abilityIndex, GameObject target)
-        {
-            float energyCost = abilities[abilityIndex].GetEnergyCost();
-            if (energyCost > currentEnergyPoints) 
-            {
-                audioSource.PlayOneShot(outOfEnergySound);
-                return; 
-            }
-            ConsumeEnergy(energyCost);
-            abilities[abilityIndex].Use(target);
-        }
     }
 }

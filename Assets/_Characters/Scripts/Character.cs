@@ -42,6 +42,7 @@ namespace RPG.Characters
         float turnAmount;
         float forwardAmount;
 
+        public AnimatorOverrideController runtimeAnimatorController { get { return animatorOverrideController; } }
         public void Kill() { isDead = true; }
         public void SetDestination(Vector3 destination) { navMeshAgent.destination = destination; }
 
