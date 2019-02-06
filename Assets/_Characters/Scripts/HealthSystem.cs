@@ -8,7 +8,7 @@ namespace RPG.Characters
     public class HealthSystem : MonoBehaviour
     {
         [SerializeField] float maxHealthPoints = 100f;
-        [SerializeField] Image healthBar;
+        [SerializeField] Image healthBar = null;
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
         [SerializeField] AudioClip[] damageSounds = null;
         [SerializeField] AudioClip[] deathSounds = null;
@@ -66,7 +66,8 @@ namespace RPG.Characters
 
         void SetDeathAnimation()
         {
-            animatorOverrideController["DEFAULT_DEATH"] = deathAnimations[Random.Range(0, deathAnimations.Length)]; // remove const 
+            deathAnimation = deathAnimations[Random.Range(0, deathAnimations.Length)];
+            animatorOverrideController["DEFAULT_DEATH"] = deathAnimation; // remove const 
         }
 
         void UpdateHealthBar()

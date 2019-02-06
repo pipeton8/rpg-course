@@ -15,7 +15,7 @@ namespace RPG.Characters
             return objectToAttachTo.AddComponent<PowerAttackBehaviour>();
         }
 
-        public float GetExtraDamage() { return extraDamage; }
+        public float GetDamage() { return extraDamage; }
 
     }
 }

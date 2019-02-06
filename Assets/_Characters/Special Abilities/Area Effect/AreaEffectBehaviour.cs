@@ -6,16 +6,16 @@ namespace RPG.Characters
 {
     public class AreaEffectBehaviour : SpecialAbilityBehaviour
     {
-        public override void Use(AbilityUseParams useParams)
+        public override void Use(GameObject target)
         {
-            DealRadialDamage(useParams);
+            DealRadialDamage();
             PlayParticleEffect();
             PlaySoundEffect();
         }
 
-        void DealRadialDamage(AbilityUseParams useParams)
+        void DealRadialDamage()
         {
-            float totalDamage = useParams.baseDamage + (config as AreaEffect).GetDamage(); // TODO is this reasonable?
+            float totalDamage = (config as AreaEffect).GetDamage();
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, (config as AreaEffect).GetEffectRadius());
 
             foreach (Collider hitCollider in hitColliders)

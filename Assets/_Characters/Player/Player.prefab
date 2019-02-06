@@ -227,10 +227,6 @@ MonoBehaviour:
   criticalHitMultiplier: 1.25
   criticalHitParticlePrefab: {fileID: 6065228353062360269, guid: 4bdda92720cbe4c62a0812c776ae4470,
     type: 3}
-  abilities:
-  - {fileID: 11400000, guid: 62015fa424deb4d52aec1b5fd7dcf96c, type: 2}
-  - {fileID: 11400000, guid: 2dfb372876852441783189acabe1f4c5, type: 2}
-  - {fileID: 11400000, guid: c276dda78be1b42d7ab11eff3d62b9d6, type: 2}
 --- !u!114 &1033075857582602777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,9 +253,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 149790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d89425c29ff4034b5ac974d3809ee6, type: 3}
+  m_Script: {fileID: 11500000, guid: afad5b67e55e34f389433f5a26030350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilities:
+  - {fileID: 11400000, guid: 62015fa424deb4d52aec1b5fd7dcf96c, type: 2}
+  - {fileID: 11400000, guid: 2dfb372876852441783189acabe1f4c5, type: 2}
+  - {fileID: 11400000, guid: c276dda78be1b42d7ab11eff3d62b9d6, type: 2}
   energyBar: {fileID: 0}
   maxEnergyPoints: 100
   regenPointsPerSecond: 10
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ef1f74ea4754f0aa1ea19fb4a595bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 100
+  maxHealthPoints: 1000
   healthBar: {fileID: 0}
   animatorOverrideController: {fileID: 22100000, guid: 7f47c7f715b554dd58d86f228bfe43ad,
     type: 2}

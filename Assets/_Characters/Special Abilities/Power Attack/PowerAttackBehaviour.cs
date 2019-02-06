@@ -1,18 +1,20 @@
-﻿namespace RPG.Characters
+﻿using UnityEngine;
+
+namespace RPG.Characters
 {
     public class PowerAttackBehaviour : SpecialAbilityBehaviour
     {
-        public override void Use(AbilityUseParams useParams)
+        public override void Use(GameObject target)
         {
-            DealDamage(useParams);
+            DealDamage(target);
             PlayParticleEffect();
             PlaySoundEffect();
         }
 
-        void DealDamage(AbilityUseParams useParams)
+        void DealDamage(GameObject target)
         {
-            float totalDamage = useParams.baseDamage + (config as PowerAttack).GetExtraDamage();
-            useParams.target.GetComponent<HealthSystem>().TakeDamage(totalDamage);
+            float totalDamage = (config as PowerAttack).GetDamage();
+            target.GetComponent<HealthSystem>().TakeDamage(totalDamage);
         }
     }
 }

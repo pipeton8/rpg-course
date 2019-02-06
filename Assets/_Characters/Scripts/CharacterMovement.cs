@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +16,7 @@ namespace RPG.Characters
         [SerializeField] float moveSpeedMultiplier = 1.25f;
         [SerializeField] float animationSpeed = 1.25f;
 
+        HealthSystem healthSystem;
         Animator animator;
         NavMeshAgent agent;
         Rigidbody rigidBody;
@@ -26,6 +26,8 @@ namespace RPG.Characters
 
         void Start()
         {
+            healthSystem = GetComponent<HealthSystem>();
+
             SetupRigidbody();
             SetupAnimator();
             SetNavMeshAgent();
@@ -66,13 +68,13 @@ namespace RPG.Characters
 
         void OnWalkableLayer(Vector3 destination)
         {
-            if (GetComponent<HealthSystem>().IsDead()) { return; }
+            if (healthSystem.IsDead()) { return; }
             if (Input.GetMouseButton(0)) { agent.SetDestination(destination); }
         }
 
         void OnMouseOverEnemy(Enemy enemy)
         {
-            if (GetComponent<HealthSystem>().IsDead()) { return; }
+            if (healthSystem.IsDead()) { return; }
 
             if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
             {
@@ -82,7 +84,8 @@ namespace RPG.Characters
 
         void HandleMovement()
         {
-            if (agent.remainingDistance > agent.stoppingDistance) { Move(agent.desiredVelocity); }
+            if (healthSystem.IsDead()) { agent.isStopped = true; }
+            else if (agent.remainingDistance > agent.stoppingDistance) { Move(agent.desiredVelocity); }
             else { Move(Vector3.zero); }
         }
 

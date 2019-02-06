@@ -1,10 +1,10 @@
-﻿using RPG.Core;
+﻿using UnityEngine;
 
 namespace RPG.Characters
 {
     public class SelfHealBehaviour : SpecialAbilityBehaviour
     {
-        public override void Use(AbilityUseParams useParams)
+        public override void Use(GameObject target)
         {
             CureUser();
             PlayParticleEffect();

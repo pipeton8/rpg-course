@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 // TODO consider re-wiring
 using RPG.CameraUI;
@@ -17,19 +15,18 @@ namespace RPG.Characters
         [SerializeField] float criticalHitMultiplier = 1.25f;
         [SerializeField] GameObject criticalHitParticlePrefab = null;
 
-        // Temporarily serialized for dubbing
-        [SerializeField] SpecialAbility[] abilities = null;
-
         const string ATTACK_TRIGGER = "Attack";
 
         GameObject dominantHand;
         GameObject weaponInHand;
         Enemy currentEnemy = null;
-        CameraRaycaster cameraRaycaster;
         Animator animator;
-        Energy energy;
+        SpecialAbilities abilities;
         HealthSystem healthSystem;
         float lastHitTime;
+
+        public delegate void OnAbilityUse(int abilityIndex, GameObject target);
+        public event OnAbilityUse onAbilityUse;
 
         public void ChangeWeapon(Weapon newWeapon)
         {
@@ -41,21 +38,12 @@ namespace RPG.Characters
 
         void Start()
         {
-            energy = GetComponent<Energy>();
+            abilities = GetComponent<SpecialAbilities>();
             healthSystem = GetComponent<HealthSystem>();
 
             RegisterForEnemyCursor();
             PutWeaponInHand();
             SetupRuntimeAnimator();
-            AttachInitialAbilities();
-        }
-
-        void AttachInitialAbilities()
-        {
-            for (int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex++)
-            {
-                abilities[abilityIndex].AttachAbilityTo(gameObject);
-            }
         }
 
         void Update()
@@ -65,7 +53,7 @@ namespace RPG.Characters
 
         void RegisterForEnemyCursor()
         {
-            cameraRaycaster = FindObjectOfType<CameraRaycaster>();
+            CameraRaycaster cameraRaycaster = FindObjectOfType<CameraRaycaster>();
             cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
         }
 
@@ -91,25 +79,28 @@ namespace RPG.Characters
 
         void ScanForAbilityKeyDown()
         {
-            for(int abilityIndex = 1; abilityIndex < abilities.Length; abilityIndex++)
+            for(int abilityIndex = 1; abilityIndex < abilities.numberOfAbilities; abilityIndex++)
             {
-                if (Input.GetKeyDown(abilityIndex.ToString()) && CanCast(abilityIndex)) 
+                if (Input.GetKeyDown(abilityIndex.ToString())) 
                 {
-                    SpecialAttack(abilityIndex);
+                    onAbilityUse(abilityIndex, currentEnemy.gameObject);
+                    return;
                 }
             }
-
         }
 
         void OnMouseOverEnemy(Enemy enemy)
         {
             if (enemy.GetComponent<HealthSystem>().IsDead()) { return; }
-
             currentEnemy = enemy;
             if (CanAttack() && IsTargetInRange())
             {
                 if (Input.GetMouseButton(0)) { Attack(); }
-                else if (Input.GetMouseButtonDown(1) && CanCast(0)) { SpecialAttack(0); }
+                else if (Input.GetMouseButtonDown(1)) 
+                {
+                    onAbilityUse(0, currentEnemy.gameObject);
+                }
+                lastHitTime = Time.time;
             }
         }
 
@@ -126,23 +117,17 @@ namespace RPG.Characters
             return timeSinceLastAttack > weaponInUse.GetMinTimeBetweenHits();
         }
 
-        bool CanCast(int abilityIndex)
-        {
-            return energy.IsEnergyAvailable(abilities[abilityIndex].GetEnergyCost());
-        }
-
         void Attack()
         {
             TriggerAttackAnimation();
             float totalDamage = CalculateDamage();
             DealDamage(totalDamage);
-            lastHitTime = Time.time;
         }
 
         float CalculateDamage()
         {
             float damageBeforeCritical = baseDamage + weaponInUse.GetAdditionalDamage();
-            bool isCriticalHit = UnityEngine.Random.Range(0f, 1f) <= criticalHitChance;
+            bool isCriticalHit = Random.Range(0f, 1f) <= criticalHitChance;
             if (isCriticalHit) 
             {
                 PlayParticleEffect(); 
@@ -166,15 +151,6 @@ namespace RPG.Characters
         }
 
         void DealDamage(float damage) { currentEnemy.GetComponent<HealthSystem>().TakeDamage(damage); }
-
-        void SpecialAttack(int abilityIndex)
-        {
-            energy.ConsumeEnergy(abilities[abilityIndex].GetEnergyCost());
-            AbilityUseParams abilityParams = new AbilityUseParams(currentEnemy, baseDamage);
-            abilities[abilityIndex].Use(abilityParams);
-            lastHitTime = Time.time;
-        }
-
 
         GameObject RequestDominantHand()
         {
