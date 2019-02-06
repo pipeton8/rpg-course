@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{E83E9C53-F0F9-D518-3F02-509CDF0B5E87}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Scripts/HealthSystem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Player/PlayerMovement.cs">
     <Files>
-      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="19" Column="34" />
-      <File FileName="Assets/_Characters/Player/Player.cs" Line="13" Column="42" />
-      <File FileName="Assets/_Characters/Scripts/Character.cs" Line="12" Column="43" />
-      <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="19" Column="1" />
+      <File FileName="Assets/_Characters/Enemies/Enemy.cs" Line="56" Column="80" />
+      <File FileName="Assets/_Characters/Player/PlayerMovement.cs" Line="102" Column="30" />
+      <File FileName="Assets/_Characters/Scripts/Character.cs" Line="43" Column="29" />
+      <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="42" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

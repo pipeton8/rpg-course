@@ -25,7 +25,7 @@ namespace RPG.Characters
 
         public float healthAsPercentage { get { return currentHealthPoints / maxHealthPoints; } }
 
-        public bool IsDead() { return currentHealthPoints <= 0; }
+        public bool isDead { get { return currentHealthPoints <= 0; } }
 
         public void Heal(float amount)
         {
@@ -35,11 +35,11 @@ namespace RPG.Characters
 
         public void TakeDamage(float damage)
         {
-            if (IsDead()) { return; }
+            if (isDead) { return; }
             PlayDamageSound();
             float newHealthPoints = currentHealthPoints - damage;
             currentHealthPoints = Mathf.Clamp(newHealthPoints, 0f, maxHealthPoints);
-            if (IsDead()) { StartCoroutine(KillCharacter()); }
+            if (isDead) { StartCoroutine(KillCharacter()); }
         }
 
         void Start()
@@ -91,7 +91,7 @@ namespace RPG.Characters
             float lengthToWait = Mathf.Max(deathSound.length, deathAnimation.length) + 0.1f;
             yield return new WaitForSeconds(lengthToWait);
 
-            Player playerComponent = GetComponent<Player>();
+            PlayerMovement playerComponent = GetComponent<PlayerMovement>();
             if (playerComponent && playerComponent.isActiveAndEnabled)
             {
                 ReloadScene();

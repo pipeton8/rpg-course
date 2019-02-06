@@ -2,45 +2,61 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using RPG.CameraUI;  // TODO consider re-wiring
-using System;
 
 namespace RPG.Characters
 {
     [SelectionBase]
     public class Character : MonoBehaviour
     {
-        [Header("Rigidbody Settings")]
-        [SerializeField] CollisionDetectionMode collisionDetectionMode;
-
-        [Header("Capsule Collider Settings")]
-        [SerializeField] Vector3 colliderCenter = new Vector3(0, 0.9f, 0);
-        [SerializeField] float colliderRadius = 0.2f;
-        [SerializeField] float colliderHeight = 1.85f;
-
-        [Header("Animator Settings")]
+        [Header("Animator")]
         [SerializeField] RuntimeAnimatorController animatorController = null;
         [SerializeField] AnimatorOverrideController animatorOverrideController = null;
         [SerializeField] Avatar characterAvatar = null;
 
-        [Header("Movement Properties")]
-        [SerializeField] float movingTurnSpeed = 360f;
-        [SerializeField] float stationaryTurnSpeed = 180f;
+        [Header("Audio")]
+        [Range(0f, 1f)] [SerializeField] float spatialBlend = 0;
+
+        [Header("Capsule Collider")]
+        [SerializeField] Vector3 colliderCenter = new Vector3(0, 0.9f, 0);
+        [SerializeField] float colliderRadius = 0.2f;
+        [SerializeField] float colliderHeight = 1.85f;
+
+        [Header("Movement")]
+        [SerializeField] float movingTurnSpeed = 720f;
+        [SerializeField] float stationaryTurnSpeed = 360f;
         [SerializeField] float moveSpeedMultiplier = 1.25f;
         [SerializeField] float animationSpeed = 1.25f;
-        [SerializeField] float stoppingDistance = 1.3f;
+
+        [Header("Nav Mesh Agent")]
+        [SerializeField] float navMeshAgentSteerinSpeed = 1.0f;
+        [SerializeField] float navMeshAgentStoppingDistance = 1.3f;
         [SerializeField] float navMeshAgentRadius = 0.35f;
+
+        [Header("Rigidbody")]
+        [SerializeField] CollisionDetectionMode collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         HealthSystem healthSystem;
         Animator animator;
-        NavMeshAgent agent;
+        NavMeshAgent navMeshAgent;
         Rigidbody rigidBody;
         float turnAmount;
         float forwardAmount;
-        Vector3 clickPoint;
+
+        public void SetDestination(Vector3 destination) { navMeshAgent.destination = destination; }
 
         void Awake()
         {
             AddRequiredComponents();
+        }
+
+        void Start()
+        {
+            healthSystem = GetComponent<HealthSystem>();
+        }
+
+        void Update()
+        {
+            HandleMovement();
         }
 
         void AddRequiredComponents()
@@ -70,66 +86,34 @@ namespace RPG.Characters
         void SetupAnimator()
         {
             animator = gameObject.AddComponent<Animator>();
-            animator.runtimeAnimatorController = animatorController;
+            animatorOverrideController.runtimeAnimatorController = animatorController;
+            animator.runtimeAnimatorController = animatorOverrideController;
             animator.avatar = characterAvatar;
             animator.speed = animationSpeed;
         }
 
         void SetupNavMeshAgent()
         {
-            agent = gameObject.AddComponent<NavMeshAgent>();
-            agent.updateRotation = false;
-            agent.updatePosition = true;
-            agent.stoppingDistance = stoppingDistance;
-            agent.radius = navMeshAgentRadius;
+            navMeshAgent = gameObject.AddComponent<NavMeshAgent>();
+            navMeshAgent.speed = navMeshAgentSteerinSpeed;
+            navMeshAgent.stoppingDistance = navMeshAgentStoppingDistance;
+            navMeshAgent.radius = navMeshAgentRadius;
+            navMeshAgent.updateRotation = false;
+            navMeshAgent.updatePosition = true;
+            navMeshAgent.autoBraking = false;
         }
 
         void SetupAudioSource()
         {
             AudioSource audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
-        }
-
-
-        void Start()
-        {
-            healthSystem = GetComponent<HealthSystem>();
-
-            RegisterToCursor();
-        }
-
-        void Update()
-        {
-            HandleMovement();
-        }
-
-        void RegisterToCursor()
-        {
-            CameraRaycaster cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            cameraRaycaster.onMouseOverWalkable += OnWalkableLayer;
-            cameraRaycaster.onMouseOverEnemy += OnMouseOverEnemy;
-        }
-
-        void OnWalkableLayer(Vector3 destination)
-        {
-            if (healthSystem.IsDead()) { return; }
-            if (Input.GetMouseButton(0)) { agent.SetDestination(destination); }
-        }
-
-        void OnMouseOverEnemy(Enemy enemy)
-        {
-            if (healthSystem.IsDead()) { return; }
-
-            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
-            {
-                agent.SetDestination(enemy.transform.position);
-            }
+            audioSource.spatialBlend = spatialBlend;
         }
 
         void HandleMovement()
         {
-            if (healthSystem.IsDead()) { agent.isStopped = true; }
-            else if (agent.remainingDistance > agent.stoppingDistance) { Move(agent.desiredVelocity); }
+            if (healthSystem.isDead) { navMeshAgent.isStopped = true; }
+            else if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance) { Move(navMeshAgent.desiredVelocity); }
             else { Move(Vector3.zero); }
         }
 

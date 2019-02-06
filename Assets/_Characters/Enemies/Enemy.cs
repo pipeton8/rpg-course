@@ -53,7 +53,7 @@ namespace RPG.Characters
 
         void StopAttacking() { isAttacking = false; StopAllCoroutines(); }
 
-        bool PlayerIsDead() { return player.GetComponent<HealthSystem>().IsDead(); }
+        bool PlayerIsDead() { return player.GetComponent<HealthSystem>().isDead; }
 
         // TODO separate our character firing logic (in different class)
         IEnumerator SpawnProjectile()

@@ -34,7 +34,7 @@ namespace RPG.Characters
         void OnTriggerEnter(Collider other)
         {
             if (other.tag != "Player") { return; }
-            FindObjectOfType<Player>().ChangeWeapon(weapon);
+            FindObjectOfType<PlayerMovement>().ChangeWeapon(weapon);
             PlaySoundEffect();
             SelfDestroy();
         }
