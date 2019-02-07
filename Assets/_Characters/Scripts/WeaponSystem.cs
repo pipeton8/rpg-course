@@ -9,7 +9,7 @@ namespace RPG.Characters
     {
         [SerializeField] float baseDamage = 10f;
         [SerializeField] Weapon weaponInUse = null;
-        [Range(.1f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
+        [Range(0f, 1f)] [SerializeField] float criticalHitChance = 0.1f;
         [SerializeField] float criticalHitMultiplier = 1.25f;
         [SerializeField] GameObject criticalHitParticlePrefab = null;
 
@@ -19,20 +19,15 @@ namespace RPG.Characters
         GameObject dominantHand;
         GameObject weaponInHand;
         GameObject currentTarget;
-        SpecialAbilities abilities;
         bool powerAttack;
         Animator animator;
         AnimatorOverrideController animatorOverrideController;
 
-        public void SetTarget(GameObject newTarget)
-        {
-            currentTarget = newTarget;
-        }
+        public void SetTarget(GameObject newTarget) { currentTarget = newTarget; }
 
-        public void RequestPowerAttack()
-        {
-            powerAttack = true;
-        }
+        public void RequestPowerAttack() { powerAttack = true; }
+
+        public void StopAttacking() { StopAllCoroutines(); }
 
         public void ChangeWeapon(Weapon newWeapon)
         {
@@ -44,8 +39,6 @@ namespace RPG.Characters
 
         void Start()
         {
-            abilities = GetComponent<SpecialAbilities>();
-
             SetAnimatorForAttack();
             PutWeaponInHand();
             SetAttackAnimation();
@@ -70,7 +63,7 @@ namespace RPG.Characters
         {
             AnimationClip attackClip = weaponInUse.GetAnimClip();
             attackClip.events = new AnimationEvent[0];
-            animatorOverrideController[DEFAULT_ATTACK] = attackClip; 
+            animatorOverrideController[DEFAULT_ATTACK] = attackClip;
         }
 
         GameObject RequestDominantHand()
@@ -93,7 +86,7 @@ namespace RPG.Characters
                     TriggerAttackAnimation();
                     if (powerAttack)
                     {
-                        abilities.RequestUse(0, currentTarget);
+                        GetComponent<SpecialAbilities>().RequestUse(0, currentTarget);
                         powerAttack = false;
                     }
                     else
@@ -101,7 +94,6 @@ namespace RPG.Characters
                         float totalDamage = CalculateDamage();
                         DealDamage(totalDamage, currentTarget);
                     }
-
                     yield return new WaitForSeconds(weaponInUse.GetMinTimeBetweenHits());
                 }
                 yield return null;
@@ -110,9 +102,9 @@ namespace RPG.Characters
 
         bool IsTargetAlive()
         {
-            HealthSystem currentTargetHealthSystem = currentTarget.GetComponent<HealthSystem>();
-            if (currentTargetHealthSystem == null) { return false; }
-            if (currentTargetHealthSystem.isDead) { return false; }
+            HealthSystem targetHealthSystem = currentTarget.GetComponent<HealthSystem>();
+            if (targetHealthSystem == null) { return false; }
+            if (targetHealthSystem.isDead) { return false; }
             return true;
         }
 
@@ -146,5 +138,13 @@ namespace RPG.Characters
         }
 
         void DealDamage(float damage, GameObject target) { target.GetComponent<HealthSystem>().TakeDamage(damage); }
+
+        void OnDrawGizmos()
+        {
+            if (weaponInUse == null) { return; }
+            // Draw attack sphere 
+            Gizmos.color = new Color(255f, 0, 0, .5f);
+            Gizmos.DrawWireSphere(transform.position, weaponInUse.GetMaxAttackRange());
+        }
     }
 }

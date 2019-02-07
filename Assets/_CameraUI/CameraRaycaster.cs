@@ -14,7 +14,7 @@ namespace RPG.CameraUI
         const int WALKABLE_LAYER = 9;
         float maxRaycastDepth = 5000f; // Hard coded value
 
-        public delegate void OnMouseOverEnemy(Enemy enemy);
+        public delegate void OnMouseOverEnemy(EnemyAI enemy);
         public event OnMouseOverEnemy onMouseOverEnemy;
 
         public delegate void OnMouseOverWalkable(Vector3 destination);
@@ -42,7 +42,7 @@ namespace RPG.CameraUI
 
         bool RaycastForEnemy(Ray ray)
         {
-            Enemy enemyHit = RetrieveEnemyHit(ray);
+            EnemyAI enemyHit = RetrieveEnemyHit(ray);
             if (enemyHit != null)
             {
                 Cursor.SetCursor(enemyCursor, cursorHotspot, CursorMode.Auto);
@@ -52,13 +52,13 @@ namespace RPG.CameraUI
             return false;
         }
 
-        Enemy RetrieveEnemyHit(Ray ray)
+        EnemyAI RetrieveEnemyHit(Ray ray)
         {
             RaycastHit hitInfo;
             Physics.Raycast(ray, out hitInfo, maxRaycastDepth);
             if (hitInfo.collider == null) { return null; }
             var gameObjectHit = hitInfo.collider.gameObject;
-            return gameObjectHit.GetComponent<Enemy>();
+            return gameObjectHit.GetComponent<EnemyAI>();
         }
 
         bool RaycastForWalkable(Ray ray)

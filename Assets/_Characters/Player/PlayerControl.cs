@@ -4,6 +4,9 @@ using RPG.CameraUI;
 
 namespace RPG.Characters
 {
+    [RequireComponent(typeof(WeaponSystem))]
+    [RequireComponent(typeof(Character))]
+    [RequireComponent(typeof(HealthSystem))]
     public class PlayerControl : MonoBehaviour
     {
         Character character;
@@ -54,7 +57,7 @@ namespace RPG.Characters
             if(Input.GetMouseButton(0)) { character.SetDestination(destination); }
         }
 
-        void OnMouseOverEnemy(Enemy enemy)
+        void OnMouseOverEnemy(EnemyAI enemy)
         {
             if (healthSystem.isDead) { return; }
             if (enemy.GetComponent<HealthSystem>().isDead) { return; }
