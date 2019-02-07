@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace RPG.Characters
@@ -10,6 +11,8 @@ namespace RPG.Characters
     {
         [SerializeField] float chaseRadius = 6f;
 
+        enum State { idle, patrolling, attacking, chasing }
+        [SerializeField] State state = State.idle;
         GameObject player;
         WeaponSystem weaponSystem;
         HealthSystem healthSystem;
@@ -18,41 +21,58 @@ namespace RPG.Characters
 
         void Start()
         {
+            player = FindObjectOfType<PlayerControl>().gameObject;
             character = GetComponent<Character>();
             weaponSystem = GetComponent<WeaponSystem>();
             healthSystem = GetComponent<HealthSystem>();
-
-            SetPlayerAsTarget();
-            StartCoroutine(ChasePlayer());
         }
 
         void Update()
         {
             distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            if (healthSystem.isDead || PlayerIsDead()) { GoIdle(); }
+            CheckForNewState();
+            EnemyBehaviour();
         }
 
-        void SetPlayerAsTarget()
+        void EnemyBehaviour()
         {
-            player = FindObjectOfType<PlayerControl>().gameObject;
+            switch (state)
+            {
+                case State.idle: IdleBehaviour(); break;
+                case State.patrolling: PatrolBehaviour(); break;
+                case State.attacking: AttackBehaviour(); break;
+                case State.chasing: ChaseBehaviour(); break;
+            }
+        }
+
+        void CheckForNewState()
+        {
+            if (PlayerIsDead() || healthSystem.isDead) { state = State.idle; return; }
+            if (distanceToPlayer > chaseRadius) { state = State.patrolling; return; }
+            if (distanceToPlayer <= weaponSystem.attackRadius) { state = State.attacking; return; }
+            if (distanceToPlayer <= chaseRadius) { state = State.chasing; return; }
+        }
+
+        void ChaseBehaviour() 
+        {
+            character.SetDestination(player.transform.position);
+        }
+
+        void AttackBehaviour()
+        {
+            character.SetDestination(player.transform.position);
             weaponSystem.SetTarget(player);
         }
 
-        void GoIdle()
+        void PatrolBehaviour()
         {
-            weaponSystem.StopAttacking();
-            StopAllCoroutines();
+            character.SetDestination(transform.position);
+            print("I should be patrolling but the programmer is to lazy to do that now");
         }
 
-        IEnumerator ChasePlayer()
+        void IdleBehaviour()
         {
-            while (true)
-            {
-                if (PlayerIsDead()) { yield return null; }
-                if (distanceToPlayer <= chaseRadius) { character.SetDestination(player.transform.position); }
-                else { character.SetDestination(transform.position); }
-                yield return null;
-            }
+            character.SetDestination(transform.position);
         }
 
         bool PlayerIsDead() { return player.GetComponent<HealthSystem>().isDead; }

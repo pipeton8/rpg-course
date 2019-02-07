@@ -21,13 +21,14 @@ namespace RPG.Characters
         GameObject currentTarget;
         bool powerAttack;
         Animator animator;
-        AnimatorOverrideController animatorOverrideController;
 
-        public void SetTarget(GameObject newTarget) { currentTarget = newTarget; }
+        public float attackRadius { get { return weaponInUse.GetMaxAttackRange(); } }
 
         public void RequestPowerAttack() { powerAttack = true; }
 
         public void StopAttacking() { StopAllCoroutines(); }
+
+        public void SetTarget(GameObject newTarget) { currentTarget = newTarget; }
 
         public void ChangeWeapon(Weapon newWeapon)
         {
@@ -39,16 +40,11 @@ namespace RPG.Characters
 
         void Start()
         {
-            SetAnimatorForAttack();
+            animator = GetComponent<Animator>();
+
             PutWeaponInHand();
             SetAttackAnimation();
             StartCoroutine(AttackTarget());
-        }
-
-        void SetAnimatorForAttack()
-        {
-            animator = GetComponent<Animator>();
-            animatorOverrideController = GetComponent<Character>().runtimeAnimatorController;
         }
 
         void PutWeaponInHand()
@@ -63,6 +59,7 @@ namespace RPG.Characters
         {
             AnimationClip attackClip = weaponInUse.GetAnimClip();
             attackClip.events = new AnimationEvent[0];
+            AnimatorOverrideController animatorOverrideController = GetComponent<Character>().runtimeAnimatorController;
             animatorOverrideController[DEFAULT_ATTACK] = attackClip;
         }
 
@@ -76,7 +73,7 @@ namespace RPG.Characters
 
             return dominantHands[0].gameObject;
         }
-
+        
         IEnumerator AttackTarget()
         {
             while (true)
@@ -100,19 +97,18 @@ namespace RPG.Characters
             }
         }
 
-        bool IsTargetAlive()
-        {
-            HealthSystem targetHealthSystem = currentTarget.GetComponent<HealthSystem>();
-            if (targetHealthSystem == null) { return false; }
-            if (targetHealthSystem.isDead) { return false; }
-            return true;
-        }
-
         bool IsTargetInRange()
         {
             if (currentTarget == null) { return false; }
             float distanceToTarget = Vector3.Distance(currentTarget.transform.position, transform.position);
             return distanceToTarget <= weaponInUse.GetMaxAttackRange();
+        }
+
+        bool IsTargetAlive()
+        {
+            HealthSystem targetHealthSystem = currentTarget.GetComponent<HealthSystem>();
+            if (targetHealthSystem == null || targetHealthSystem.isDead) { return false; }
+            return true;
         }
 
         void TriggerAttackAnimation() { animator.SetTrigger(ATTACK_TRIGGER); }
@@ -141,7 +137,6 @@ namespace RPG.Characters
 
         void OnDrawGizmos()
         {
-            if (weaponInUse == null) { return; }
             // Draw attack sphere 
             Gizmos.color = new Color(255f, 0, 0, .5f);
             Gizmos.DrawWireSphere(transform.position, weaponInUse.GetMaxAttackRange());

@@ -80,6 +80,7 @@ namespace RPG.Characters
 
         IEnumerator KillCharacter()
         {
+            GetComponent<WeaponSystem>().StopAttacking();
             TriggerDeathAnimation();
             PlayDeathSound();
 
