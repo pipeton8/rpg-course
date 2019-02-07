@@ -70,8 +70,9 @@ namespace RPG.Characters
                 character.SetDestination(enemy.transform.position);
             }
             else if (Input.GetMouseButtonDown(1)) 
-            { 
-                abilities.RequestUse(0, currentEnemy);
+            {
+                weaponSystem.SetTarget(currentEnemy);
+                weaponSystem.RequestPowerAttack();
                 character.SetDestination(enemy.transform.position);
             }
         }

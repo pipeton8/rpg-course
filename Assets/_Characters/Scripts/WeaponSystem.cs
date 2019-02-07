@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
 using System.Collections;
+using System;
 
 namespace RPG.Characters
 {
@@ -18,12 +19,19 @@ namespace RPG.Characters
         GameObject dominantHand;
         GameObject weaponInHand;
         GameObject currentTarget;
+        SpecialAbilities abilities;
+        bool powerAttack;
         Animator animator;
         AnimatorOverrideController animatorOverrideController;
 
         public void SetTarget(GameObject newTarget)
         {
             currentTarget = newTarget;
+        }
+
+        public void RequestPowerAttack()
+        {
+            powerAttack = true;
         }
 
         public void ChangeWeapon(Weapon newWeapon)
@@ -36,6 +44,8 @@ namespace RPG.Characters
 
         void Start()
         {
+            abilities = GetComponent<SpecialAbilities>();
+
             SetAnimatorForAttack();
             PutWeaponInHand();
             SetAttackAnimation();
@@ -58,7 +68,9 @@ namespace RPG.Characters
 
         void SetAttackAnimation()
         {
-            animatorOverrideController[DEFAULT_ATTACK] = weaponInUse.GetAnimClip(); 
+            AnimationClip attackClip = weaponInUse.GetAnimClip();
+            attackClip.events = new AnimationEvent[0];
+            animatorOverrideController[DEFAULT_ATTACK] = attackClip; 
         }
 
         GameObject RequestDominantHand()
@@ -76,16 +88,32 @@ namespace RPG.Characters
         {
             while (true)
             {
-                if (IsTargetInRange())
+                if (IsTargetInRange() && IsTargetAlive())
                 {
-                    print("Starting attack");
                     TriggerAttackAnimation();
-                    float totalDamage = CalculateDamage();
-                    DealDamage(totalDamage, currentTarget);
+                    if (powerAttack)
+                    {
+                        abilities.RequestUse(0, currentTarget);
+                        powerAttack = false;
+                    }
+                    else
+                    {
+                        float totalDamage = CalculateDamage();
+                        DealDamage(totalDamage, currentTarget);
+                    }
 
                     yield return new WaitForSeconds(weaponInUse.GetMinTimeBetweenHits());
                 }
+                yield return null;
             }
+        }
+
+        bool IsTargetAlive()
+        {
+            HealthSystem currentTargetHealthSystem = currentTarget.GetComponent<HealthSystem>();
+            if (currentTargetHealthSystem == null) { return false; }
+            if (currentTargetHealthSystem.isDead) { return false; }
+            return true;
         }
 
         bool IsTargetInRange()
@@ -100,7 +128,7 @@ namespace RPG.Characters
         float CalculateDamage()
         {
             float damageBeforeCritical = baseDamage + weaponInUse.GetAdditionalDamage();
-            bool isCriticalHit = Random.Range(0f, 1f) <= criticalHitChance;
+            bool isCriticalHit = UnityEngine.Random.Range(0f, 1f) <= criticalHitChance;
             if (isCriticalHit)
             {
                 PlayParticleEffect();
