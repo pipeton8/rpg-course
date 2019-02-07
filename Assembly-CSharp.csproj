@@ -69,6 +69,7 @@
     <Compile Include="Assets\_Characters\Scripts\DominantHand.cs" />
     <Compile Include="Assets\_Characters\Scripts\HealthSystem.cs" />
     <Compile Include="Assets\_Characters\Scripts\SpecialAbilities.cs" />
+    <Compile Include="Assets\_Characters\Scripts\WaypointContainer.cs" />
     <Compile Include="Assets\_Characters\Scripts\WeaponSystem.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\Area Effect\AreaEffect.cs" />
     <Compile Include="Assets\_Characters\Special Abilities\Area Effect\AreaEffectBehaviour.cs" />
