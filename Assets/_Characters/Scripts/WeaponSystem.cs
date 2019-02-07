@@ -20,7 +20,6 @@ namespace RPG.Characters
         GameObject weaponInHand;
         GameObject currentTarget;
         bool powerAttack;
-        float damageDelay;
         Animator animator;
 
         public float attackRadius { get { return weaponInUse.GetMaxAttackRange(); } }
@@ -59,8 +58,6 @@ namespace RPG.Characters
         void SetAttackAnimation()
         {
             AnimationClip attackClip = weaponInUse.GetAnimClip();
-            damageDelay = attackClip.events[0].time;
-            attackClip.events = new AnimationEvent[0];
             AnimatorOverrideController animatorOverrideController = GetComponent<Character>().runtimeAnimatorController;
             animatorOverrideController[DEFAULT_ATTACK] = attackClip;
         }
@@ -83,7 +80,7 @@ namespace RPG.Characters
                 if (IsTargetInRange() && IsTargetAlive())
                 {
                     TriggerAttackAnimation();
-                    StartCoroutine(DelayToDealDamage(damageDelay));
+                    StartCoroutine(DelayToDealDamage(weaponInUse.timeOfHit));
                     if (powerAttack)
                     {
                         GetComponent<SpecialAbilities>().RequestUse(0, currentTarget);

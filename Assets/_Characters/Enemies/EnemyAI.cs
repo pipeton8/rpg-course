@@ -100,7 +100,6 @@ namespace RPG.Characters
                 float distanceToWaypoint = Vector3.Distance(transform.position, waypoint.position);
                 if (distanceToWaypoint <= character.stoppingDistance)
                 {
-                    print(waypointIndex);
                     waypointIndex = (waypointIndex + 1) % patrolPath.transform.childCount;
                     yield return new WaitForSeconds(patrolWaitTime);
                 }
