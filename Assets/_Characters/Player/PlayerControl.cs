@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Assertions;
 
-// TODO consider re-wiring
 using RPG.CameraUI;
 
-// TODO extract WeaponSystem
 namespace RPG.Characters
 {
     public class PlayerControl : MonoBehaviour

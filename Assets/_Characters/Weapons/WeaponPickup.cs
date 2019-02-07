@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Characters
 {
@@ -9,20 +6,11 @@ namespace RPG.Characters
     public class WeaponPickup : MonoBehaviour
     {
         [SerializeField] Weapon weapon = null;
-        [SerializeField] AudioClip pickupSound = null;
+        [SerializeField] AudioClip pickupSound = null; 
 
-        void LateUpdate()
+        void Start()
         {
-            if (!Application.isPlaying)
-            {
-                DestroyChildren();
-                InstantiateWeapon();
-            }
-        }
-
-        void DestroyChildren()
-        {
-            foreach (Transform child in transform) { DestroyImmediate(child.gameObject); }
+            InstantiateWeapon();
         }
 
         void InstantiateWeapon()

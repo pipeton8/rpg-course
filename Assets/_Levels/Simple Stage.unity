@@ -1886,7 +1886,7 @@ PrefabInstance:
       objectReference: {fileID: 930733599}
     - target: {fileID: 408730, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.44
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1894,7 +1894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.78
+      value: -22.8
       objectReference: {fileID: 0}
     - target: {fileID: 408730, guid: 178edfe1c65414b72bcec4d75f09036e, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2081,9 +2081,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1668210722}
-  - component: {fileID: 1668210725}
-  - component: {fileID: 1668210724}
-  - component: {fileID: 1668210723}
   m_Layer: 0
   m_Name: Enemy 101
   m_TagString: Untagged
@@ -2108,72 +2105,6 @@ Transform:
   m_Father: {fileID: 767131307}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1668210723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668210721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e0b94ac7b40b42399b2ba1e46bf6bd2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animatorController: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
-  animatorOverrideController: {fileID: 22100000, guid: a6d9f45db88044f96bf45d86c3ff26a9,
-    type: 2}
-  characterAvatar: {fileID: 9000000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
-  spatialBlend: 0
-  colliderCenter: {x: 0, y: 0.9, z: 0}
-  colliderRadius: 0.2
-  colliderHeight: 1.85
-  movingTurnSpeed: 720
-  stationaryTurnSpeed: 360
-  moveSpeedMultiplier: 1.25
-  animationSpeed: 1.25
-  navMeshAgentSteerinSpeed: 1
-  navMeshAgentStoppingDistance: 1.3
-  navMeshAgentRadius: 0.35
-  collisionDetectionMode: 1
---- !u!114 &1668210724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668210721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac46da830b7bf0443b928b3e59950ae5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chaseRadius: 0
-  attackRadius: 0
-  damagePerShot: 9
-  secondsBetweenShots: 0.5
-  variation: 0.1
-  projectileToUse: {fileID: 0}
-  projectileSocket: {fileID: 0}
-  aimOffset: {x: 0, y: 1, z: 0}
---- !u!114 &1668210725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668210721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24ef1f74ea4754f0aa1ea19fb4a595bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealthPoints: 10000
-  healthBar: {fileID: 0}
-  animatorOverrideController: {fileID: 0}
-  damageSounds: []
-  deathSounds: []
-  deathAnimations: []
 --- !u!1 &1672335987
 GameObject:
   m_ObjectHideFlags: 0
