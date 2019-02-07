@@ -13,6 +13,9 @@ namespace RPG.Characters
 
         enum State { idle, patrolling, attacking, chasing }
         [SerializeField] State state = State.idle;
+        [SerializeField] WaypointContainer patrolPath = null;
+        [SerializeField] float patrolWaitTime = 0.5f;
+
         GameObject player;
         WeaponSystem weaponSystem;
         HealthSystem healthSystem;
@@ -30,52 +33,97 @@ namespace RPG.Characters
         void Update()
         {
             distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            CheckForNewState();
             EnemyBehaviour();
         }
 
         void EnemyBehaviour()
         {
-            switch (state)
+            if (PlayerIsDead() || healthSystem.isDead)
             {
-                case State.idle: IdleBehaviour(); break;
-                case State.patrolling: PatrolBehaviour(); break;
-                case State.attacking: AttackBehaviour(); break;
-                case State.chasing: ChaseBehaviour(); break;
+                StopAllCoroutines();
+                IdleBehaviour();
+                return;
             }
-        }
-
-        void CheckForNewState()
-        {
-            if (PlayerIsDead() || healthSystem.isDead) { state = State.idle; return; }
-            if (distanceToPlayer > chaseRadius) { state = State.patrolling; return; }
-            if (distanceToPlayer <= weaponSystem.attackRadius) { state = State.attacking; return; }
-            if (distanceToPlayer <= chaseRadius) { state = State.chasing; return; }
-        }
-
-        void ChaseBehaviour() 
-        {
-            character.SetDestination(player.transform.position);
-        }
-
-        void AttackBehaviour()
-        {
-            character.SetDestination(player.transform.position);
-            weaponSystem.SetTarget(player);
-        }
-
-        void PatrolBehaviour()
-        {
-            character.SetDestination(transform.position);
-            print("I should be patrolling but the programmer is to lazy to do that now");
+            if (distanceToPlayer > chaseRadius && state != State.patrolling)
+            {
+                PatrolBehaviour();
+                return;
+            }
+            if (distanceToPlayer <= weaponSystem.attackRadius && state != State.attacking)
+            {
+                StopAllCoroutines();
+                AttackBehaviour();
+                return;
+            }
+            if (distanceToPlayer <= chaseRadius && state != State.chasing && state != State.attacking)
+            {
+                StopAllCoroutines();
+                ChaseBehaviour();
+                return;
+            }
         }
 
         void IdleBehaviour()
         {
+            state = State.idle;
             character.SetDestination(transform.position);
         }
 
+        void PatrolBehaviour()
+        {
+            state = State.patrolling;
+            StartCoroutine(FollowWaypoints());
+        }
+
+        void AttackBehaviour()
+        {
+            state = State.attacking;
+            character.SetDestination(player.transform.position);
+            weaponSystem.SetTarget(player);
+        }
+
+        void ChaseBehaviour() 
+        {
+            state = State.chasing;
+            character.SetDestination(player.transform.position);
+        }
+
         bool PlayerIsDead() { return player.GetComponent<HealthSystem>().isDead; }
+
+        IEnumerator FollowWaypoints()
+        {
+            int waypointIndex = FindCloserWaypoint();
+            while (true)
+            {
+                Transform waypoint = patrolPath.transform.GetChild(waypointIndex);
+                character.SetDestination(waypoint.position);
+                float distanceToWaypoint = Vector3.Distance(transform.position, waypoint.position);
+                if (distanceToWaypoint <= character.stoppingDistance)
+                {
+                    print(waypointIndex);
+                    waypointIndex = (waypointIndex + 1) % patrolPath.transform.childCount;
+                    yield return new WaitForSeconds(patrolWaitTime);
+                }
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        int FindCloserWaypoint()
+        {
+            float closerDistance = Mathf.Infinity;
+            int closerIndex = 0;
+            for (int waypointIndex = 0; waypointIndex < patrolPath.transform.childCount; waypointIndex++)
+            {
+                Transform waypoint = patrolPath.transform.GetChild(waypointIndex);
+                float newDistance = Vector3.Distance(transform.position, waypoint.position);
+                if (newDistance <= closerDistance)
+                {
+                    closerIndex = waypointIndex;
+                    closerDistance = newDistance;
+                }
+            }
+            return closerIndex;
+        }
 
         void OnDrawGizmos()
         {

@@ -111,7 +111,11 @@ namespace RPG.Characters
             return true;
         }
 
-        void TriggerAttackAnimation() { animator.SetTrigger(ATTACK_TRIGGER); }
+        void TriggerAttackAnimation()
+        {
+            transform.LookAt(currentTarget.transform);
+            animator.SetTrigger(ATTACK_TRIGGER);
+        }
 
         float CalculateDamage()
         {
