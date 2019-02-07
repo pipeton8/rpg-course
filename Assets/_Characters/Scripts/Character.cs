@@ -44,6 +44,7 @@ namespace RPG.Characters
         public void Kill() { isDead = true; }
         public void SetDestination(Vector3 destination) { navMeshAgent.destination = destination; }
         public float stoppingDistance { get { return navMeshAgentStoppingDistance;} }
+        public float animSpeed { get { return animationSpeed; } }
 
         void Awake()
         {
