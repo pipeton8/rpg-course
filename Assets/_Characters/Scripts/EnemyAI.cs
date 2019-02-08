@@ -10,12 +10,11 @@ namespace RPG.Characters
     public class EnemyAI : MonoBehaviour
     {
         [SerializeField] float chaseRadius = 6f;
-
-        enum State { idle, patrolling, attacking, chasing }
-        [SerializeField] State state = State.idle;
         [SerializeField] WaypointContainer patrolPath = null;
         [SerializeField] float patrolWaitTime = 0.5f;
 
+        enum State { idle, patrolling, attacking, chasing }
+        State state = State.idle;
         GameObject player;
         WeaponSystem weaponSystem;
         HealthSystem healthSystem;
@@ -95,7 +94,7 @@ namespace RPG.Characters
         {
             while (true)
             {
-                if (distanceToPlayer <= chaseRadius)
+                if (distanceToPlayer <= chaseRadius) 
                 {
                     character.SetDestination(player.transform.position);
                 }
