@@ -80,7 +80,7 @@ namespace RPG.Characters
                 if (IsTargetInRange() && IsTargetAlive())
                 {
                     TriggerAttackAnimation();
-                    StartCoroutine(DelayToDealDamage(weaponInUse.timeOfHit));
+                    yield return new WaitForSeconds(weaponInUse.GetTimeOfHit());
                     if (powerAttack)
                     {
                         GetComponent<SpecialAbilities>().RequestUse(0, currentTarget);
@@ -93,15 +93,10 @@ namespace RPG.Characters
                     }
                     float weaponHitPeriod = weaponInUse.GetMinTimeBetweenHits();
                     float animSpeedMultiplier = GetComponent<Character>().animSpeed;
-                    yield return new WaitForSeconds(weaponHitPeriod * animSpeedMultiplier);
+                    yield return new WaitForSeconds(weaponHitPeriod);
                 }
                 yield return null;
             }
-        }
-
-        IEnumerator DelayToDealDamage(float delay)
-        {
-            yield return new WaitForSecondsRealtime(delay);
         }
 
         bool IsTargetInRange()

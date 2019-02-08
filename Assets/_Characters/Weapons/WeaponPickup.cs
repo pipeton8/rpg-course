@@ -22,7 +22,7 @@ namespace RPG.Characters
         void OnTriggerEnter(Collider other)
         {
             WeaponSystem weaponSystem = other.GetComponent<WeaponSystem>();
-            if (other.tag != "Player" || weaponSystem == null) { return; }
+            if (other.GetComponent<PlayerControl>() == null || weaponSystem == null) { return; }
             weaponSystem.ChangeWeapon(weapon);
             PlaySoundEffect();
             SelfDestroy();

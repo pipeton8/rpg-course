@@ -13,8 +13,7 @@ namespace RPG.Characters
         [SerializeField] float minTimeBetweenHits = .5f;
         [SerializeField] float maxAttackRange = 2f;
         [SerializeField] float additionalDamage = 10f;
-
-        public float timeOfHit { get; private set; } = 0;
+        [SerializeField] float timeOfHit = 2f;
 
         public float GetMinTimeBetweenHits() { return minTimeBetweenHits; }
 
@@ -22,11 +21,12 @@ namespace RPG.Characters
 
         public float GetAdditionalDamage() { return additionalDamage; }
 
+        public float GetTimeOfHit() { return timeOfHit; }
+
         public GameObject GetWeapon() { return weaponPrefab; }
 
         public AnimationClip GetAnimClip()
         {
-            if (attackAnimation.events.Length > 0) { timeOfHit = attackAnimation.events[0].time; }
             RemoveAnimationEvents();
             return attackAnimation;
         }
