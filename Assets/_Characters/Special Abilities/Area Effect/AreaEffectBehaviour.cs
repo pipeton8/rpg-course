@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 
-using RPG.Core;
-
 namespace RPG.Characters
 {
     public class AreaEffectBehaviour : SpecialAbilityBehaviour
     {
+        float timeDelayAfterAnimation = 0.5f;
+
         public override void Use(GameObject target)
         {
             DealRadialDamage();
-            PlayParticleEffect();
-            PlaySoundEffect();
+            StartCoroutine(PlayAbilityEffects(timeDelayAfterAnimation));
         }
 
         void DealRadialDamage()

@@ -9,7 +9,6 @@ namespace RPG.Characters
     {
         [SerializeField] float maxHealthPoints = 100f;
         [SerializeField] Image healthBar = null;
-        [SerializeField] AnimatorOverrideController animatorOverrideController = null;
         [SerializeField] AudioClip[] damageSounds = null;
         [SerializeField] AudioClip[] deathSounds = null;
         [SerializeField] AnimationClip[] deathAnimations = null;
@@ -61,7 +60,7 @@ namespace RPG.Characters
         {
             animator = GetComponent<Animator>();
             deathAnimation = deathAnimations[Random.Range(0, deathAnimations.Length)];
-            animatorOverrideController = GetComponent<Character>().runtimeAnimatorController;
+            AnimatorOverrideController animatorOverrideController = GetComponent<Character>().runtimeAnimatorController;
             animatorOverrideController[DEFAULT_DEATH] = deathAnimation;
         }
 

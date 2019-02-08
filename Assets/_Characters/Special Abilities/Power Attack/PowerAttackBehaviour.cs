@@ -4,11 +4,12 @@ namespace RPG.Characters
 {
     public class PowerAttackBehaviour : SpecialAbilityBehaviour
     {
+        float delayToParticleEffect = 0.5f;
+
         public override void Use(GameObject target)
         {
             DealDamage(target);
-            PlayParticleEffect();
-            PlaySoundEffect();
+            StartCoroutine(PlayAbilityEffects(delayToParticleEffect));
         }
 
         void DealDamage(GameObject target)

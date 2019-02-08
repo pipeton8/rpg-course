@@ -93,7 +93,7 @@ namespace RPG.Characters
         IEnumerator FollowWaypoints()
         {
             int waypointIndex = FindCloserWaypoint();
-            while (true)
+            while (patrolPath != null)
             {
                 Transform waypoint = patrolPath.transform.GetChild(waypointIndex);
                 character.SetDestination(waypoint.position);
@@ -105,6 +105,7 @@ namespace RPG.Characters
                 }
                 yield return new WaitForEndOfFrame();
             }
+            yield return null;
         }
 
         int FindCloserWaypoint()

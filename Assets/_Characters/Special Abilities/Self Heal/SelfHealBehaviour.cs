@@ -4,11 +4,12 @@ namespace RPG.Characters
 {
     public class SelfHealBehaviour : SpecialAbilityBehaviour
     {
+        float delayToParticleEffect = 0.1f;
+
         public override void Use(GameObject target)
         {
             CureUser();
-            PlayParticleEffect();
-            PlaySoundEffect();
+            StartCoroutine(PlayAbilityEffects(delayToParticleEffect));
         }
 
         private void CureUser()

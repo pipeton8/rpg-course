@@ -14,7 +14,7 @@ namespace RPG.Characters
         [SerializeField] GameObject criticalHitParticlePrefab = null;
 
         const string ATTACK_TRIGGER = "Attack";
-        const string DEFAULT_ATTACK = "DEFAULT ATTACK";
+        const string DEFAULT_ATTACK = "DEFAULT_ATTACK";
 
         GameObject dominantHand;
         GameObject weaponInHand;

@@ -10,7 +10,6 @@ namespace RPG.Characters
     public class PlayerControl : MonoBehaviour
     {
         Character character;
-        Animator animator;
         SpecialAbilities abilities;
         WeaponSystem weaponSystem;
         HealthSystem healthSystem;
@@ -64,17 +63,21 @@ namespace RPG.Characters
 
             currentEnemy = enemy.gameObject;
 
-            if (Input.GetMouseButton(0)) 
-            { 
-                weaponSystem.SetTarget(currentEnemy);
-                character.SetDestination(enemy.transform.position);
+            if (Input.GetMouseButton(0))
+            {
+                TargetAndMove(currentEnemy);
             }
             else if (Input.GetMouseButtonDown(1)) 
             {
-                weaponSystem.SetTarget(currentEnemy);
+                TargetAndMove(currentEnemy);
                 weaponSystem.RequestPowerAttack();
-                character.SetDestination(enemy.transform.position);
             }
+        }
+
+        private void TargetAndMove(GameObject target)
+        {
+            weaponSystem.SetTarget(target);
+            character.SetDestination(target.transform.position);
         }
     }
 }
