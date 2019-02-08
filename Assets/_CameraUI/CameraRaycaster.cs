@@ -8,6 +8,7 @@ namespace RPG.CameraUI
     public class CameraRaycaster : MonoBehaviour 
     {
         [SerializeField] Texture2D walkCursor = null;
+        [SerializeField] Texture2D walkCursorClicked = null;
         [SerializeField] Texture2D enemyCursor = null;
         [SerializeField] Vector2 cursorHotspot = new Vector2(0, 0);
 
@@ -71,6 +72,10 @@ namespace RPG.CameraUI
             {
                 Cursor.SetCursor(walkCursor, cursorHotspot, CursorMode.Auto);
                 onMouseOverWalkable(hitInfo.point);
+                if (Input.GetMouseButton(0))
+                {
+                    Cursor.SetCursor(walkCursorClicked, cursorHotspot, CursorMode.Auto);
+                }
                 return true;
             }
             return false;
