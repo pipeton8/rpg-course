@@ -33,58 +33,59 @@ namespace RPG.Characters
         void Update()
         {
             distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            EnemyBehaviour();
+            if (ChangeState())
+            {
+                StopAllCoroutines(); 
+                UpdateEnemyBehaviour();
+            }
         }
 
-        void EnemyBehaviour()
+        private bool ChangeState()
         {
-            if (PlayerIsDead() || healthSystem.isDead)
+            bool isInAttackRing = distanceToPlayer <= weaponSystem.attackRadius;
+            bool isInChaseRing = distanceToPlayer <= chaseRadius;
+            if (PlayerIsDead() || healthSystem.isDead) { return ChangeIfDifferent(State.idle); }
+            if (!isInAttackRing && !isInChaseRing) { return ChangeIfDifferent(State.patrolling); }
+            if (isInAttackRing) { return ChangeIfDifferent(State.attacking); }
+            if (!isInAttackRing && isInChaseRing) { return ChangeIfDifferent(State.chasing); }
+            return false;
+        }
+
+        private bool ChangeIfDifferent(State newState)
+        {
+            if (state != newState) { state = newState;  return true; }
+            return false;
+        }
+
+        void UpdateEnemyBehaviour()
+        {
+            switch (state)
             {
-                StopAllCoroutines();
-                IdleBehaviour();
-                return;
-            }
-            if (distanceToPlayer > chaseRadius && state != State.patrolling && state != State.attacking)
-            {
-                PatrolBehaviour();
-                return;
-            }
-            if (distanceToPlayer <= weaponSystem.attackRadius && state != State.attacking)
-            {
-                StopAllCoroutines();
-                AttackBehaviour();
-                return;
-            }
-            if (distanceToPlayer <= chaseRadius && state != State.chasing && state != State.attacking)
-            {
-                StopAllCoroutines();
-                ChaseBehaviour();
-                return;
+                case State.idle: IdleBehaviour(); break;
+                case State.patrolling: PatrolBehaviour(); break;
+                case State.attacking: AttackBehaviour(); break;
+                case State.chasing: ChaseBehaviour(); break;
             }
         }
 
         void IdleBehaviour()
         {
-            state = State.idle;
             character.SetDestination(transform.position);
         }
 
         void PatrolBehaviour()
         {
-            state = State.patrolling;
             StartCoroutine(FollowWaypoints());
         }
 
         void AttackBehaviour()
         {
-            state = State.attacking;
             StartCoroutine(ChasePlayer());
             weaponSystem.SetTarget(player);
         }
 
         void ChaseBehaviour() 
         {
-            state = State.chasing;
             StartCoroutine(ChasePlayer());
         }
 
@@ -104,7 +105,11 @@ namespace RPG.Characters
 
         IEnumerator FollowWaypoints()
         {
-            if (patrolPath == null) { yield break; }
+            if (patrolPath == null)
+            {
+                character.SetDestination(transform.position);
+                yield break;
+            }
             int waypointIndex = FindCloserWaypoint();
             while (true)
             {
