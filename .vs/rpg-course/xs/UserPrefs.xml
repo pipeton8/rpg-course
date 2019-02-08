@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{E83E9C53-F0F9-D518-3F02-509CDF0B5E87}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_Characters/Scripts/WeaponSystem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/_CameraUI/CameraRaycaster.cs">
     <Files>
       <File FileName="Assets/_Characters/Scripts/EnemyAI.cs" Line="95" Column="50" />
       <File FileName="Assets/_Characters/Scripts/HealthSystem.cs" Line="54" Column="31" />
       <File FileName="Assets/_Characters/Scripts/WeaponSystem.cs" Line="102" Column="1" />
       <File FileName="Assets/_Characters/Weapons/Weapon.cs" Line="24" Column="58" />
+      <File FileName="Assets/_CameraUI/CameraRaycaster.cs" Line="77" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

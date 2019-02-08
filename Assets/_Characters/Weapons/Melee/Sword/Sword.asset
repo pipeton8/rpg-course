@@ -20,3 +20,4 @@ MonoBehaviour:
   minTimeBetweenHits: 1
   maxAttackRange: 1.5
   additionalDamage: 10
+  timeOfHit: 0.3
