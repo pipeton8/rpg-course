@@ -44,7 +44,7 @@ namespace RPG.Characters
                 IdleBehaviour();
                 return;
             }
-            if (distanceToPlayer > chaseRadius && state != State.patrolling)
+            if (distanceToPlayer > chaseRadius && state != State.patrolling && state != State.attacking)
             {
                 PatrolBehaviour();
                 return;
@@ -78,17 +78,29 @@ namespace RPG.Characters
         void AttackBehaviour()
         {
             state = State.attacking;
-            if (distanceToPlayer <= chaseRadius) { character.SetDestination(player.transform.position); }
+            StartCoroutine(ChasePlayer());
             weaponSystem.SetTarget(player);
         }
 
         void ChaseBehaviour() 
         {
             state = State.chasing;
-            character.SetDestination(player.transform.position);
+            StartCoroutine(ChasePlayer());
         }
 
         bool PlayerIsDead() { return player.GetComponent<HealthSystem>().isDead; }
+
+        IEnumerator ChasePlayer()
+        {
+            while (true)
+            {
+                if (distanceToPlayer <= chaseRadius)
+                {
+                    character.SetDestination(player.transform.position);
+                }
+                yield return null;
+            }
+        }
 
         IEnumerator FollowWaypoints()
         {

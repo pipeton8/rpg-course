@@ -53,7 +53,11 @@ namespace RPG.Characters
 
         void OnMouseOverWalkable(Vector3 destination)
         {
-            if(Input.GetMouseButton(0)) { character.SetDestination(destination); }
+            if (Input.GetMouseButton(0)) 
+            {
+                character.SetDestination(destination);
+                weaponSystem.SetTarget(null);
+            }
         }
 
         void OnMouseOverEnemy(EnemyAI enemy)

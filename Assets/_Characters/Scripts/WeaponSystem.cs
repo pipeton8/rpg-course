@@ -77,7 +77,7 @@ namespace RPG.Characters
         {
             while (true)
             {
-                if (IsTargetInRange() && IsTargetAlive())
+                if (currentTarget != null && IsTargetInRange() && IsTargetAlive())
                 {
                     TriggerAttackAnimation();
                     yield return new WaitForSeconds(weaponInUse.GetTimeOfHit());
@@ -101,7 +101,6 @@ namespace RPG.Characters
 
         bool IsTargetInRange()
         {
-            if (currentTarget == null) { return false; }
             float distanceToTarget = Vector3.Distance(currentTarget.transform.position, transform.position);
             return distanceToTarget <= weaponInUse.GetMaxAttackRange();
         }

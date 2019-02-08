@@ -10,7 +10,7 @@ namespace RPG.CameraUI
         [SerializeField] Texture2D walkCursor = null;
         [SerializeField] Texture2D walkCursorClicked = null;
         [SerializeField] Texture2D enemyCursor = null;
-        [SerializeField] Vector2 cursorHotspot = new Vector2(0, 0);
+        [SerializeField] Vector2 cursorHotspot = Vector2.zero;
 
         const int WALKABLE_LAYER = 9;
         float maxRaycastDepth = 5000f; // Hard coded value
