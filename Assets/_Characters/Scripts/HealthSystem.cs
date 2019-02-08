@@ -72,7 +72,7 @@ namespace RPG.Characters
 
         void PlayDamageSound()
         {
-            if (audioSource.isPlaying || damageSounds.Length == 0) { return; }
+            if (damageSounds.Length == 0) { return; }
             int index = Random.Range(0, damageSounds.Length);
             audioSource.PlayOneShot(damageSounds[index]);
         }
